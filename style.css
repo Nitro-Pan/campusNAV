@@ -3,14 +3,11 @@
 body {
 	margin: 0;
 	padding: 0;
-	background-color: #7DDA8F;
+	background-color: #7dda8f;
 	font-family: 'Roboto', sans-serif;
 }
 
-h1 {
-	margin-top: 20%;
-}
-h1,
-h3 {
+body > div {
+	width: 100%;
 	text-align: center;
 }
