@@ -36,15 +36,8 @@
     <div id="firebaseui-auth-container"></div>
     <div id="loader">Loading...</div>
   </div>
-
-  <body>
-    <div>
-      <h1>CampusNAV</h1>
-      <h3>BCIT Burnaby campus navigation at your fingertips</h3>
-      <div id="firebaseui-auth-container"></div>
-      <div id="loader">Loading...</div>
-    </div>
-    <script>
+  
+  <script>
       // Initialize the FirebaseUI Widget using Firebase.
       var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
@@ -82,7 +75,5 @@
       // The start method will wait until the DOM is loaded.
       ui.start('#firebaseui-auth-container', uiConfig);
     </script>
-
   </body>
-
 </html>
