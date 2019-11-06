@@ -4,3 +4,9 @@ body {
 	background-color: #7dda8f;
 	font-family: 'Roboto', sans-serif;
 }
+
+body > div {
+	margin-top: 150px;
+	width: 100%;
+	text-align: center;
+}
