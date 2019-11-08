@@ -4,11 +4,15 @@
     <title>Main Page</title>
     <meta charset="utf-8"/>
     <link type='text/css' rel='stylesheet' href='style2.css' />
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
   </head>
   <body>
     <div>Hello, User!</div>
-    <p id='latlongdebug'></p>
-    <div id='locationDot' style='position: absolute'></div>
+    <p id='latlongdebug'>Heccc</p>
+    <div id='locationDot' style='background-color: red; width: 40px; height: 40px; border-radius: 50%;'></div>
   </body>
 
   <script>
@@ -24,7 +28,8 @@
       document.getElementById("latlongdebug").innerHTML = "Lat: " + position.coords.latitude 
           + "<br />Long: " + position.coords.longitude;
       var pos = document.getElementById("locationDot");
-      locationDot.style = "";
+      pos.style.marginLeft = 100*(position.coords.latitude);
+      pos.style.marginBottom = 100*(position.coords.longitude);
     }
 
     getLocation();
