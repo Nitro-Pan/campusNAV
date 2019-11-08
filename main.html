@@ -8,6 +8,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  
+    <style>
+      body {
+        background-image: url(./tempmapbg.png);
+        background-size: 100vw 100vh;
+      }
+    </style>
   </head>
   <body>
     <div>Hello, User!</div>
@@ -28,14 +35,21 @@
     }
 
     function showPosition(position) {
+      console.log("Updated Position");
+
       document.getElementById("latlongdebug").innerHTML = "Lat: " + position.coords.latitude 
           + "<br />Long: " + position.coords.longitude;
       
-      var xWidth = -122.995065 - -123.004098;
-      var yHeight = 49.254732 - 49.241769;
+      var bcitLeft = -123.004656;
+      var bcitRight = -122.997935;
+      var bcitTop = 49.254732;
+      var bcitBottom = 49.242950;
 
-      var relLat = 49.254732 - position.coords.latitude;
-      var relLong = -122.995065 - position.coords.longitude;
+      var xWidth = bcitRight - bcitLeft;
+      var yHeight = bcitTop - bcitBottom;
+
+      var relLat = bcitTop - position.coords.latitude;
+      var relLong = bcitRight - position.coords.longitude;
 
       var latPercent = (relLat / xWidth) * 100;
       var longPercent = (relLat / yHeight) * 100;
