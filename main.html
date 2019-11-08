@@ -6,10 +6,27 @@
     <link type='text/css' rel='stylesheet' href='style2.css' />
   </head>
   <body>
-    <div>
-      <h1>CampusNAV</h1>
-      <h3>BCIT Burnaby campus navigation at your fingertips</h3>
-    </div>
     <div>Hello, User!</div>
+    <p id='latlongdebug'></p>
+    <div id='locationDot' style='position: absolute'></div>
   </body>
+
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(showPosition);
+      } else {
+        document.getElementById("latlongdebug").innerHTML = "No Geolocation :(";
+      }
+    }
+
+    function showPosition(position) {
+      document.getElementById("latlongdebug").innerHTML = "Lat: " + position.coords.latitude 
+          + "<br />Long: " + position.coords.longitude;
+      var pos = document.getElementById("locationDot");
+      locationDot.style = "";
+    }
+
+    getLocation();
+  </script>
 </html>
