@@ -5,6 +5,18 @@ body {
 	font-family: 'Roboto', sans-serif;
 }
 
+h1 {
+	font-size: 10em;
+}
+h3 {
+	margin-top: -80px;
+	font-size: 2.5em;
+}
+
+#logo {
+	width: 60%;
+}
+
 body > div {
 	margin-top: 150px;
 	width: 100%;
@@ -14,4 +26,5 @@ body > div {
 #firebaseui-auth-container {
 	min-width: 100%;
 	margin: 0;
+	font-size: 4em;
 }
