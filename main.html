@@ -4,11 +4,25 @@
     <title>Main Page</title>
     <meta charset="utf-8"/>
     <link type='text/css' rel='stylesheet' href='style2.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  
+    <style>
+      body {
+        background-image: url(./tempmapbg.png);
+        background-size: 100vw 100vh;
+      }
+    </style>
   </head>
   <body>
     <div>Hello, User!</div>
-    <p id='latlongdebug'></p>
-    <div id='locationDot' style='position: absolute'></div>
+    <p id='latlongdebug'>lat/long</p>
+    <p id='bcitsize'>size</p>
+    <p id='relbcitloc'>relative location</p>
+    <p id='relbcitlocpercent'>percentage location</p>
+    <span id='locationDot' style='position: fixed; background-color: red; width: 40px; height: 40px; border-radius: 50%; top: 0px;'></span>
   </body>
 
   <script>
@@ -21,10 +35,31 @@
     }
 
     function showPosition(position) {
+      console.log("Updated Position");
+
       document.getElementById("latlongdebug").innerHTML = "Lat: " + position.coords.latitude 
           + "<br />Long: " + position.coords.longitude;
+      
+      var bcitLeft = -123.004656;
+      var bcitRight = -122.997935;
+      var bcitTop = 49.254732;
+      var bcitBottom = 49.242950;
+
+      var xWidth = bcitRight - bcitLeft;
+      var yHeight = bcitTop - bcitBottom;
+
+      var relLat = bcitTop - position.coords.latitude;
+      var relLong = bcitRight - position.coords.longitude;
+
+      var latPercent = (relLat / xWidth) * 100;
+      var longPercent = (relLat / yHeight) * 100;
+
+      document.getElementById("bcitsize").innerHTML = "BCIT width: " + xWidth + "<br />BCIT height: " + yHeight;
+      document.getElementById("relbcitloc").innerHTML = "Relative width: " + relLat + "<br />Relative height: " + relLong;
+      document.getElementById("relbcitlocpercent").innerHTML = "% width: " + (100 - latPercent) + "<br />% height: " + longPercent;
+
       var pos = document.getElementById("locationDot");
-      locationDot.style = "";
+      pos.style.transform = "translate(" + (100 - latPercent) + "vw, " + longPercent + "vh)";
     }
 
     getLocation();
