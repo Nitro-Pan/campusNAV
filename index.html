@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>CampusNAV - Login</title>
 
@@ -31,69 +32,72 @@
     <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
     <script>
-      // Your web app's Firebase configuration
-      var firebaseConfig = {
-        apiKey: "AIzaSyCt4B38Y0sBK2XZeo7wLvMZ7lSTg9QCRrU",
-        authDomain: "oct31-543b4.firebaseapp.com",
-        databaseURL: "https://oct31-543b4.firebaseio.com",
-        projectId: "oct31-543b4",
-        storageBucket: "oct31-543b4.appspot.com",
-        messagingSenderId: "902911582602",
-        appId: "1:902911582602:web:c60f8a5193131240e9a873"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCk0i8nhu1vqh0c9dUIUEGy_2jNq6i4Glw",
+            authDomain: "campus-nav-8edaf.firebaseapp.com",
+            databaseURL: "https://campus-nav-8edaf.firebaseio.com",
+            projectId: "campus-nav-8edaf",
+            storageBucket: "campus-nav-8edaf.appspot.com",
+            messagingSenderId: "926858289313",
+            appId: "1:926858289313:web:7171d305abb80d1a60d0e0"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
     </script>
     <link type='text/css' rel='stylesheet' href='style.css' />
 </head>
 
 <body>
-    
-  <div>
-    <img id='logo' src='logo2.png' />
-    <h1 class='bigger'>CampusNAV</h1>
-    <h3>BCIT Burnaby campus navigation at your fingertips</h3>
-    <div id="firebaseui-auth-container"></div>
-    <div id="loader">Loading...</div>
-  </div>
-  
-  <script>
-      // Initialize the FirebaseUI Widget using Firebase.
-      var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
-      var uiConfig = {
-        callbacks: {
-          signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-            // User successfully signed in.
-            // Return type determines whether we continue the redirect automatically
-            // or whether we leave that to developer to handle.
-            return true;
-          },
-          uiShown: function () {
-            // The widget is rendered.
-            // Hide the loader.
-            document.getElementById('loader').style.display = 'none';
-          }
-        },
-        // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-        signInFlow: 'popup',
-        signInSuccessUrl: 'main.html',
-        signInOptions: [
-          // Leave the lines as is for the providers you want to offer your users.
-          // firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-          // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-          // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-          // firebase.auth.GithubAuthProvider.PROVIDER_ID,
-          firebase.auth.EmailAuthProvider.PROVIDER_ID,
-          // firebase.auth.PhoneAuthProvider.PROVIDER_ID
-        ],
-        // Terms of service url.
-        tosUrl: 'main.html',
-        // Privacy policy url.
-        privacyPolicyUrl: 'main.html'
-      };
-      // The start method will wait until the DOM is loaded.
-      ui.start('#firebaseui-auth-container', uiConfig);
+    <div>
+        <img id='logo' src='logo2.png' />
+        <h1 class='bigger'>CampusNAV</h1>
+        <h3>BCIT Burnaby campus navigation at your fingertips</h3>
+        <div id="firebaseui-auth-container"></div>
+        <div id="loader">Loading...</div>
+    </div>
+
+    <script>
+        // Initialize the FirebaseUI Widget using Firebase.
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+        var uiConfig = {
+            callbacks: {
+                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                    // User successfully signed in.
+                    // Return type determines whether we continue the redirect automatically
+                    // or whether we leave that to developer to handle.
+                    return true;
+                },
+                uiShown: function() {
+                    // The widget is rendered.
+                    // Hide the loader.
+                    document.getElementById('loader').style.display = 'none';
+                }
+            },
+            // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+            signInFlow: 'popup',
+            signInSuccessUrl: 'main.html',
+            signInOptions: [
+                // Leave the lines as is for the providers you want to offer your users.
+                // firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+                // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+                // firebase.auth.GithubAuthProvider.PROVIDER_ID,
+                firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                // firebase.auth.PhoneAuthProvider.PROVIDER_ID
+            ],
+            // Terms of service url.
+            tosUrl: 'main.html',
+            // Privacy policy url.
+            privacyPolicyUrl: 'main.html'
+        };
+        // The start method will wait until the DOM is loaded.
+        ui.start('#firebaseui-auth-container', uiConfig);
+
     </script>
-  </body>
+</body>
+
 </html>
