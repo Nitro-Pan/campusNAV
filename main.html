@@ -1,67 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Main Page</title>
-    <meta charset="utf-8"/>
-    <link type='text/css' rel='stylesheet' href='style2.css' />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  
-    <style>
-      body {
-        background-image: url(./tempmapbg.png);
-        background-size: 100vw 100vh;
-      }
-    </style>
-  </head>
-  <body>
-    <div>Hello, User!</div>
-    <p id='latlongdebug'>lat/long</p>
-    <p id='bcitsize'>size</p>
-    <p id='relbcitloc'>relative location</p>
-    <p id='relbcitlocpercent'>percentage location</p>
-    <span id='locationDot' style='position: fixed; background-color: red; width: 40px; height: 40px; border-radius: 50%; top: 0px;'></span>
-  </body>
 
-  <script>
-    function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(showPosition);
-      } else {
-        document.getElementById("latlongdebug").innerHTML = "No Geolocation :(";
-      }
+<head>
+  <title>Main Page</title>
+  <meta charset="utf-8" />
+  <link type='text/css' rel='stylesheet' href='style2.css' />
+
+  <!------------------------------------------------------------------------------>
+  <!-- Bootstrap for Mobile-first                                               -->
+  <!------------------------------------------------------------------------------>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <!------------------------------------------------------------------------------>
+  <!-- Add Firebase products that you want to use                               -->
+  <!------------------------------------------------------------------------------>
+  <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-firestore.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+  <style>
+    body {
+      background-image: url(./tempmapbg.png);
+      background-size: 100vw 100vh;
     }
+  </style>
+</head>
 
-    function showPosition(position) {
-      console.log("Updated Position");
+<body>
+  <div>Hello, <span id="userName">User!</span></div>
+  <p id='latlongdebug'>lat/long</p>
+  <p id='bcitsize'>size</p>
+  <p id='relbcitloc'>relative location</p>
+  <p id='relbcitlocpercent'>percentage location</p>
+  <span id='locationDot'
+    style='position: fixed; background-color: red; width: 40px; height: 40px; border-radius: 50%; top: 0px;'></span>
+</body>
 
-      document.getElementById("latlongdebug").innerHTML = "Lat: " + position.coords.latitude 
-          + "<br />Long: " + position.coords.longitude;
-      
-      var bcitLeft = -123.004656;
-      var bcitRight = -122.997935;
-      var bcitTop = 49.254732;
-      var bcitBottom = 49.242950;
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCk0i8nhu1vqh0c9dUIUEGy_2jNq6i4Glw",
+    authDomain: "campus-nav-8edaf.firebaseapp.com",
+    databaseURL: "https://campus-nav-8edaf.firebaseio.com",
+    projectId: "campus-nav-8edaf",
+    storageBucket: "campus-nav-8edaf.appspot.com",
+    messagingSenderId: "926858289313",
+    appId: "1:926858289313:web:7171d305abb80d1a60d0e0"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  var db = firebase.firestore();
+</script>
 
-      var xWidth = bcitRight - bcitLeft;
-      var yHeight = bcitTop - bcitBottom;
-
-      var relLat = bcitTop - position.coords.latitude;
-      var relLong = bcitRight - position.coords.longitude;
-
-      var latPercent = (relLat / xWidth) * 100;
-      var longPercent = (relLat / yHeight) * 100;
-
-      document.getElementById("bcitsize").innerHTML = "BCIT width: " + xWidth + "<br />BCIT height: " + yHeight;
-      document.getElementById("relbcitloc").innerHTML = "Relative width: " + relLat + "<br />Relative height: " + relLong;
-      document.getElementById("relbcitlocpercent").innerHTML = "% width: " + (100 - latPercent) + "<br />% height: " + longPercent;
-
-      var pos = document.getElementById("locationDot");
-      pos.style.transform = "translate(" + (100 - latPercent) + "vw, " + longPercent + "vh)";
+<script>
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(showPosition);
+    } else {
+      document.getElementById("latlongdebug").innerHTML = "No Geolocation :(";
     }
+  }
 
-    getLocation();
-  </script>
+  function showPosition(position) {
+    console.log("Updated Position");
+
+    document.getElementById("latlongdebug").innerHTML = "Lat: " + position.coords.latitude
+      + "<br />Long: " + position.coords.longitude;
+
+    var bcitLeft = -123.004656;
+    var bcitRight = -122.997935;
+    var bcitTop = 49.254732;
+    var bcitBottom = 49.242950;
+
+    var xWidth = bcitRight - bcitLeft;
+    var yHeight = bcitTop - bcitBottom;
+
+    var relLat = bcitTop - position.coords.latitude;
+    var relLong = bcitRight - position.coords.longitude;
+
+    var latPercent = (relLat / xWidth) * 100;
+    var longPercent = (relLat / yHeight) * 100;
+
+    document.getElementById("bcitsize").innerHTML = "BCIT width: " + xWidth + "<br />BCIT height: " + yHeight;
+    document.getElementById("relbcitloc").innerHTML = "Relative width: " + relLat + "<br />Relative height: " + relLong;
+    document.getElementById("relbcitlocpercent").innerHTML = "% width: " + (100 - latPercent) + "<br />% height: " + longPercent;
+
+    var pos = document.getElementById("locationDot");
+    pos.style.transform = "translate(" + (100 - latPercent) + "vw, " + longPercent + "vh)";
+  }
+
+  firebase.auth().onAuthStateChanged(function () {
+    var user = firebase.auth().currentUser;
+
+    if (user) {
+      let userdb = db.collection("users");
+
+      userdb.doc(user.uid).set({
+        name: user.displayName,
+        email: user.email
+      });
+
+      console.log(user);
+      document.getElementById("userName").innerHTML = user.displayName;
+    } else {
+      console.log("No user logged in");
+    }
+  });
+  getLocation();
+</script>
+
 </html>
