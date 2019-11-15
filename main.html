@@ -47,11 +47,17 @@
       height: 80vh;
       width: 100vw;
       position: fixed;
-      background-color: rgba(67, 67, 67, 0.4);
+      background-color: rgba(67, 67, 67, 0.6);
       z-index: 0;
       color: white;
+      text-align: left;
       transition-duration: 200ms;
       transition-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+    }
+
+    #menu>* {
+      margin-left: 8px;
+      font-size: 1.3em;
     }
 
     .menuUp {
@@ -68,12 +74,16 @@
   <span id='locationDot'
     style='position: fixed; background-color: red; width: 20px; height: 20px; border-radius: 50%; top: 0px;'></span>
   <div id='menuButton'></div>
-  <div id='menu' class='menuUp'>
+  <div id='menu' class='menuDown'>
     <div>Hello, <span id="userName">User!</span></div>
-    <p id='latlongdebug'>lat/long</p>
-    <p id='bcitsize'>size</p>
-    <p id='relbcitloc'>relative location</p>
-    <p id='relbcitlocpercent'>percentage location</p>
+    <div id='debug' style='display: none;'>
+      <p id='latlongdebug'>lat/long</p>
+      <p id='bcitsize'>size</p>
+      <p id='relbcitloc'>relative location</p>
+      <p id='relbcitlocpercent'>percentage location</p>
+    </div>
+    <p id='logout'>Logout</p>
+    <p id='debugShow'>Show Debug Info</p>
   </div>
 </body>
 
@@ -97,10 +107,16 @@
   function _init() {
     var menuButton = document.getElementById("menuButton");
     menuButton.addEventListener("click", menuPop);
+
+    var logoutButton = document.getElementById("logout");
+    logoutButton.addEventListener("click", logout);
+
+    var debugShow = document.getElementById("debugShow");
+    debugShow.addEventListener("click", showDebugInfo);
     getLocation();
   }
 
-  var menuIsDown = false;
+  var menuIsDown = true;
   function menuPop() {
     if (!menuIsDown) {
       document.getElementById("menu").classList.remove("menuUp");
@@ -110,6 +126,32 @@
       document.getElementById("menu").classList.add("menuUp");
       document.getElementById("menu").classList.remove("menuDown");
       menuIsDown = false;
+    }
+  }
+
+  function logout() {
+    let _this = document.getElementById("logout");
+
+    firebase.auth().signOut().then(function () {
+      window.location = "index.html";
+    }, function (e) {
+      console.log("You can't sign out.");
+    });
+  }
+
+  var debugIsShown = false;
+  function showDebugInfo() {
+    let _this = document.getElementById("debugShow");
+    let info = document.getElementById("debug");
+
+    if (debugIsShown) {
+      info.style = "display: none;";
+      _this.innerText = "Show Debug Info";
+      debugIsShown = false;
+    } else {
+      info.style = "display: block;";
+      _this.innerText = "Hide Debug Info";
+      debugIsShown = true;
     }
   }
 
@@ -160,7 +202,6 @@
         email: user.email
       });
 
-      console.log(user);
       document.getElementById("userName").innerHTML = user.displayName;
     } else {
       console.log("No user logged in");
