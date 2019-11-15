@@ -29,17 +29,52 @@
       background-image: url(./tempmapbg.png);
       background-size: 100vw 100vh;
     }
+
+    #menuButton {
+      display: block;
+      background-color: green;
+      width: 20vw;
+      height: 20vw;
+      position: fixed;
+      bottom: 5%;
+      left: 40%;
+      border-radius: 50%;
+      z-index: 10;
+    }
+
+    #menu {
+      display: block;
+      height: 80vh;
+      width: 100vw;
+      position: fixed;
+      background-color: rgba(67, 67, 67, 0.4);
+      z-index: 0;
+      color: white;
+      transition-duration: 200ms;
+      transition-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+    }
+
+    .menuUp {
+      bottom: 0;
+    }
+
+    .menuDown {
+      bottom: -80%;
+    }
   </style>
 </head>
 
 <body>
-  <div>Hello, <span id="userName">User!</span></div>
-  <p id='latlongdebug'>lat/long</p>
-  <p id='bcitsize'>size</p>
-  <p id='relbcitloc'>relative location</p>
-  <p id='relbcitlocpercent'>percentage location</p>
   <span id='locationDot'
-    style='position: fixed; background-color: red; width: 40px; height: 40px; border-radius: 50%; top: 0px;'></span>
+    style='position: fixed; background-color: red; width: 20px; height: 20px; border-radius: 50%; top: 0px;'></span>
+  <div id='menuButton'></div>
+  <div id='menu' class='menuUp'>
+    <div>Hello, <span id="userName">User!</span></div>
+    <p id='latlongdebug'>lat/long</p>
+    <p id='bcitsize'>size</p>
+    <p id='relbcitloc'>relative location</p>
+    <p id='relbcitlocpercent'>percentage location</p>
+  </div>
 </body>
 
 <script>
@@ -59,6 +94,25 @@
 </script>
 
 <script>
+  function _init() {
+    var menuButton = document.getElementById("menuButton");
+    menuButton.addEventListener("click", menuPop);
+    getLocation();
+  }
+
+  var menuIsDown = false;
+  function menuPop() {
+    if (!menuIsDown) {
+      document.getElementById("menu").classList.remove("menuUp");
+      document.getElementById("menu").classList.add("menuDown");
+      menuIsDown = true;
+    } else {
+      document.getElementById("menu").classList.add("menuUp");
+      document.getElementById("menu").classList.remove("menuDown");
+      menuIsDown = false;
+    }
+  }
+
   function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(showPosition);
@@ -74,7 +128,7 @@
       + "<br />Long: " + position.coords.longitude;
 
     var bcitLeft = -123.004656;
-    var bcitRight = -122.997935;
+    var bcitRight = -122.996830;
     var bcitTop = 49.254732;
     var bcitBottom = 49.242950;
 
@@ -112,7 +166,8 @@
       console.log("No user logged in");
     }
   });
-  getLocation();
+
+  _init();
 </script>
 
 </html>
