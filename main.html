@@ -195,7 +195,7 @@
     var user = firebase.auth().currentUser;
     //when user logs in, writes user name and email in Firestore
     if (user) {
-      let userdb = db.collection("Users");
+      let userdb = db.collection("users");
 
       userdb.doc(user.uid).set({
         name: user.displayName,
@@ -208,7 +208,7 @@
     }
     //when user logs in / refreshes page, writes user current location in Firestore
     if (user) {
-      db.collection("Location").doc("SW01").set({
+      db.collection("location").doc("SW01").set({
 
         latitude: "49.2505439",
         longitude: "-122.9927971"
