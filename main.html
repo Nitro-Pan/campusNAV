@@ -208,7 +208,7 @@
     }
     
     if (user) {
-      db.collection("Buildings").doc("SE14").set({
+      db.collection("Buildings").doc(user.uid).set({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       })
