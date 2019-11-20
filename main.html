@@ -93,21 +93,23 @@
     </div>
 </body>
 
-<script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-        apiKey: "AIzaSyCk0i8nhu1vqh0c9dUIUEGy_2jNq6i4Glw",
-        authDomain: "campus-nav-8edaf.firebaseapp.com",
-        databaseURL: "https://campus-nav-8edaf.firebaseio.com",
-        projectId: "campus-nav-8edaf",
-        storageBucket: "campus-nav-8edaf.appspot.com",
-        messagingSenderId: "926858289313",
-        appId: "1:926858289313:web:7171d305abb80d1a60d0e0"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    var db = firebase.firestore();
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCk0i8nhu1vqh0c9dUIUEGy_2jNq6i4Glw",
+    authDomain: "campus-nav-8edaf.firebaseapp.com",
+    databaseURL: "https://campus-nav-8edaf.firebaseio.com",
+    projectId: "campus-nav-8edaf",
+    storageBucket: "campus-nav-8edaf.appspot.com",
+    messagingSenderId: "926858289313",
+    appId: "1:926858289313:web:7171d305abb80d1a60d0e0"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  var db = firebase.firestore();
 </script>
 
 <script>
@@ -119,143 +121,129 @@
         document.getElementById("alert").innerHTML = a;
         console.log(a);
     }
-
-
-
-    function _init() {
-        var menuButton = document.getElementById("menuButton");
-        menuButton.addEventListener("click", menuPop);
-
-        var logoutButton = document.getElementById("logout");
-        logoutButton.addEventListener("click", logout);
-
-        var debugShow = document.getElementById("debugShow");
-        debugShow.addEventListener("click", showDebugInfo);
-        getLocation();
-    }
-
-    var menuIsDown = true;
-
-    function menuPop() {
-        if (!menuIsDown) {
-            document.getElementById("menu").classList.remove("menuUp");
-            document.getElementById("menu").classList.add("menuDown");
-            menuIsDown = true;
-        } else {
-            document.getElementById("menu").classList.add("menuUp");
-            document.getElementById("menu").classList.remove("menuDown");
-            menuIsDown = false;
-        }
-    }
-
-    function logout() {
-        let _this = document.getElementById("logout");
-
-        firebase.auth().signOut().then(function() {
-            window.location = "index.html";
-        }, function(e) {
-            console.log("You can't sign out.");
-        });
-    }
-
-    var debugIsShown = false;
-
-    function showDebugInfo() {
-        let _this = document.getElementById("debugShow");
-        let info = document.getElementById("debug");
-
-        if (debugIsShown) {
-            info.style = "display: none;";
-            _this.innerText = "Show Debug Info";
-            debugIsShown = false;
-        } else {
-            info.style = "display: block;";
-            _this.innerText = "Hide Debug Info";
-            debugIsShown = true;
-        }
-    }
-
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(showPosition);
-        } else {
-            document.getElementById("latlongdebug").innerHTML = "No Geolocation :(";
-        }
-    }
-
-    function showPosition(position) {
-        console.log("Updated Position");
-
-        document.getElementById("latlongdebug").innerHTML = "Lat: " + position.coords.latitude +
-            "<br />Long: " + position.coords.longitude;
-
-        var bcitLeft = -123.004656;
-        var bcitRight = -122.998273;
-        var bcitTop = 49.254732;
-        var bcitBottom = 49.242950;
-
-        var xWidth = bcitRight - bcitLeft;
-        var yHeight = bcitTop - bcitBottom;
-
-        var relLat = bcitTop - position.coords.latitude;
-        var relLong = bcitRight - position.coords.longitude;
-
-        var latPercent = (relLat / xWidth) * 100;
-        var longPercent = (relLat / yHeight) * 100;
-
-        document.getElementById("bcitsize").innerHTML = "BCIT width: " + xWidth + "<br />BCIT height: " + yHeight;
-        document.getElementById("relbcitloc").innerHTML = "Relative width: " + relLat + "<br />Relative height: " + relLong;
-        document.getElementById("relbcitlocpercent").innerHTML = "% width: " + (100 - latPercent) + "<br />% height: " + longPercent;
-
-        var pos = document.getElementById("locationDot");
-        pos.style.transform = "translate(" + (100 - latPercent) + "vw, " + longPercent + "vh)";
-    }
-
-    firebase.auth().onAuthStateChanged(function() {
-        var user = firebase.auth().currentUser;
-        //when user logs in, writes user name and email in Firestore
-        if (user) {
-            let userdb = db.collection("users");
-
-            userdb.doc(user.uid).set({
-                name: user.displayName,
-                email: user.email
-            });
-
-            document.getElementById("userName").innerHTML = user.displayName;
-        } else {
-            console.log("No user logged in");
-        }
-        //when user logs in / refreshes page, writes user current location in Firestore
-        if (user) {
-            db.collection("location").doc("SW01").set({
-
-                latitude: "49.2505439",
-                longitude: "-122.9927971"
-            })
-        }
-        // //reads user current location stored in Firestore
-        // if (user) {
-        //   db.collection("Location").doc("SW01").get().then(function(doc) {
-        //     if (doc.exists) {
-        //       console.log("Document data:", doc.data());
-        //     } else {
-        //       console.log("No such document!");
-        //     }
-        //   })
-        // }
-
+  $(document).ready(function () {
+    $("#menuButton").click(function () {
+      $("#menu").toggleClass("menuUp");
+      $("#menu").toggleClass("menuDown");
     });
 
-    //read: .get() , .onSnapshot()
-    //write: .set() , .update() , .create() , .add()  
+    $("#logout").click(function () {
+      firebase.auth().signOut().then(function () {
+        window.location = "index.html";
+      }, function (e) {
+        console.log("You can't sign out.");
+      });
+    });
 
-    //write: search history and read: search history when user clicks on searchbar
-    //data-entry: building locations and read: building coordinates when user selects building
+    let debugIsShown = false;
+    $("#debugShow").click(function () {
+      if (debugIsShown) {
+        $("#debug").css({ "display": "none" });
+        $("#debugShow").text("Show Debug Info");
+        debugIsShown = false;
+      } else {
+        $("#debug").css({ "display": "block" });
+        $("#debugShow").text("Hide Debug Info");
+        debugIsShown = true;
+      }
+    });
 
+    // if time allows it, make the background scrollable. Don't worry about it for now.
+    // let pos1 = 0;
+    // let pos2 = 0;
+    // let pos3 = 0;
+    // let pos4 = 0;
+    // let oldPositionX = 0;
+    // let oldPositionY = 0;
+    // let scrollingMap = false;
+    // $("#mapScroll").mousedown(function (e) {
+    //   scrollingMap = true;
+    //   pos3 = e.pageX;
+    //   pos4 = e.pageY;
+    // });
+    // $("#mapScroll").mouseup(function (e) {
+    //   scrollingMap = false;
+    //   pos3 = e.pageX;
+    //   pos4 = e.pageY;
+    // });
+    // $("#mapScroll").mouseleave(function (e) {
+    //   scrollingMap = false;
+    //   pos3 = e.pageX;
+    //   pos4 = e.pageY;
+    // });
+    // $("#mapScroll").mousemove(function (e) {
+    //   if (scrollingMap) {
+    //     pos1 = e.pageX - pos3;
+    //     pos2 = e.pageY - pos4;
+    //     // pos3 = e.pageX;
+    //     // pos4 = e.pageY;
 
-    _init();
+    //     $("#mapScroll").css({ transform: "translate(" + pos1 + "px," + pos2 + "px)" });
+    //   }
+    // });
+  });
 
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(showPosition);
+    } else {
+      document.getElementById("latlongdebug").innerHTML = "No Geolocation :(";
+    }
+  }
+
+  function showPosition(position) {
+    console.log("Updated Position");
+
+    document.getElementById("latlongdebug").innerHTML = "Lat: " + position.coords.latitude
+      + "<br />Long: " + position.coords.longitude;
+
+    var bcitLeft = -123.004656;
+    var bcitRight = -122.998273;
+    var bcitTop = 49.254732;
+    var bcitBottom = 49.242950;
+
+    var xWidth = bcitRight - bcitLeft;
+    var yHeight = bcitTop - bcitBottom;
+
+    var relLat = bcitTop - position.coords.latitude;
+    var relLong = bcitRight - position.coords.longitude;
+
+    var latPercent = (relLat / xWidth) * 100;
+    var longPercent = (relLat / yHeight) * 100;
+
+    document.getElementById("bcitsize").innerHTML = "BCIT width: " + xWidth + "<br />BCIT height: " + yHeight;
+    document.getElementById("relbcitloc").innerHTML = "Relative width: " + relLat + "<br />Relative height: " + relLong;
+    document.getElementById("relbcitlocpercent").innerHTML = "% width: " + (100 - latPercent) + "<br />% height: " + longPercent;
+
+    var pos = document.getElementById("locationDot");
+    pos.style.transform = "translate(" + (100 - latPercent) + "vw, " + longPercent + "vh)";
+  }
+  firebase.auth().onAuthStateChanged(function () {
+    var user = firebase.auth().currentUser;
+    //when user logs in, writes user name and email in Firestore
+    if (user) {
+      let userdb = db.collection("users");
+
+      userdb.doc(user.uid).set({
+        name: user.displayName,
+        email: user.email
+      });
+      
+      document.getElementById("userName").innerHTML = user.displayName;
+    } else {
+      console.log("No user logged in");
+    }
+    //reads user current location stored in Firestore
+  });
+  
+  //read: .get() , .onSnapshot()
+  //write: .set() , .update() , .create() , .add()  
+  
+  //write: search history and read: search history when user clicks on searchbar
+  //data-entry: building locations and read: building coordinates when user selects building
+  
+
+  getLocation();
 </script>
 
 </html>
