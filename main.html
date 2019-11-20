@@ -206,11 +206,11 @@
     } else {
       console.log("No user logged in");
     }
-    
+
     if (user) {
-      db.collection("Buildings").doc(user.uid).set({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
+      db.collection("Location").doc(user.uid).set({
+        latitude: "49.2505439",
+        longitude: "-122.9927971"
       })
     }
     
