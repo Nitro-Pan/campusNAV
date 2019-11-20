@@ -208,22 +208,22 @@
     }
     //when user logs in / refreshes page, writes user current location in Firestore
     if (user) {
-      db.collection("Location").doc(user.uid).set({
+      db.collection("Location").doc("SW01").set({
 
-        latitude: "position.coords.latitude",
-        longitude: "position.coords.longitude"
+        latitude: "49.2505439",
+        longitude: "-122.9927971"
       })
     }
-    //reads user current location stored in Firestore
-    if (user) {
-      db.collection("Location").doc(user.uid).get().then(function(doc) {
-        if (doc.exists) {
-          console.log("Document data:", doc.data());
-        } else {
-          console.log("No such document!");
-        }
-      })
-    }
+    // //reads user current location stored in Firestore
+    // if (user) {
+    //   db.collection("Location").doc("SW01").get().then(function(doc) {
+    //     if (doc.exists) {
+    //       console.log("Document data:", doc.data());
+    //     } else {
+    //       console.log("No such document!");
+    //     }
+    //   })
+    // }
     
   });
   
