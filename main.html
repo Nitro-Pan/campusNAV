@@ -132,9 +132,18 @@
 <script>
   var userID;
   $(document).ready(function () {
+    let menuIsDown = true;
     $("#menuButton").click(function () {
       $("#menu").toggleClass("menuUp");
       $("#menu").toggleClass("menuDown");
+
+      if (menuIsDown) {
+        $("#menuButton img").attr("src", "close_button.png");
+        menuIsDown = false;
+      } else {
+        $("#menuButton img").attr("src", "menu_button.png");
+        menuIsDown = true;
+      }
     });
 
     $("#logout").click(function () {
@@ -162,6 +171,7 @@
       $("#searchClick").css({ display: "block" });
     });
     $("#locationInput").blur(function (e) {
+      sleep(1);
       $("#searchClick").css({ display: "none" });
     });
     $("#locationInput").keydown(function (e) {
