@@ -2,97 +2,112 @@
 <html lang="en">
 
 <head>
-    <title>Main Page</title>
-    <meta charset="utf-8" />
-    <link type='text/css' rel='stylesheet' href='style2.css' />
+  <title>Main Page</title>
+  <meta charset="utf-8" />
+  <link type='text/css' rel='stylesheet' href='style2.css' />
 
-    <!------------------------------------------------------------------------------>
-    <!-- Bootstrap for Mobile-first                                               -->
-    <!------------------------------------------------------------------------------>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <!------------------------------------------------------------------------------>
+  <!-- Bootstrap for Mobile-first                                               -->
+  <!------------------------------------------------------------------------------>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    <!------------------------------------------------------------------------------>
-    <!-- Add Firebase products that you want to use                               -->
-    <!------------------------------------------------------------------------------>
-    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-firestore.js"></script>
-    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+  <!------------------------------------------------------------------------------>
+  <!-- Add Firebase products that you want to use                               -->
+  <!------------------------------------------------------------------------------>
+  <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-firestore.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
 
-    <style>
-        body {
-            background-image: url(./tempmapbg.png);
-            background-size: 100vw 100vh;
-        }
+  <style>
+    body {
+      background-image: url(./tempmapbg.png);
+      background-size: 100vw 100vh;
+    }
 
-        #menuButton {
-            display: block;
-            width: 20vw;
-            height: 20vw;
-            position: fixed;
-            bottom: 5%;
-            left: 40%;
-            border-radius: 50%;
-            z-index: 10;
-        }
+    #menuButton {
+      display: block;
+      width: 20vw;
+      height: 20vw;
+      position: fixed;
+      bottom: 5%;
+      left: 40%;
+      border-radius: 50%;
+      z-index: 10;
+    }
 
-        #menu {
-            display: block;
-            height: 80vh;
-            width: 100vw;
-            position: fixed;
-            background-color: rgba(67, 67, 67, 0.6);
-            z-index: 0;
-            color: white;
-            text-align: left;
-            transition-duration: 200ms;
-            transition-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
-        }
+    #menu {
+      display: block;
+      height: 80vh;
+      width: 100vw;
+      position: fixed;
+      background-color: rgba(67, 67, 67, 0.6);
+      z-index: 0;
+      color: white;
+      text-align: left;
+      transition-duration: 200ms;
+      transition-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+    }
 
-        #menu>* {
-            margin-left: 8px;
-            font-size: 1.3em;
-        }
+    #menu>* {
+      margin-left: 8px;
+      font-size: 1.3em;
+    }
 
-        .menuUp {
-            bottom: 0;
-        }
+    .menuUp {
+      bottom: 0;
+    }
 
-        .menuDown {
-            bottom: -100%;
-        }
+    .menuDown {
+      bottom: -100%;
+    }
 
-    </style>
+    #locationSearch {
+      margin-top: 30px;
+    }
+
+    #locationInput {
+      width: 60vw;
+    }
+
+    #searchClick {
+      width: 20%;
+      border-style: solid;
+      border-width: 1px;
+      border-radius: 5%;
+      display: none;
+      margin: 0 auto;
+      background: white;
+    }
+  </style>
 </head>
 
 <body>
-    <span id='locationDot' style='position: fixed; background-color: red; width: 20px; height: 20px; border-radius: 50%; top: 0px;'></span>
+  <span id='locationDot'
+    style='position: fixed; background-color: red; width: 20px; height: 20px; border-radius: 50%; top: 0px;'></span>
 
-    <form>
-        <fieldset>
-            <legend>Search Bar</legend>
-            <input type="text" placeholder="Enter Location" pattern="[A-Za-z]{2,12}">
-            <br>
-            <input type="button" value="submit">
-        </fieldset>
-    </form>
-    <div id='menuButton'><img src="menu_button.png" width="100%" height="100%"></div>
-    <div id='menu' class='menuDown'>
-        <div>Hello, <span id="userName">User!</span></div>
-        <div id='debug' style='display: none;'>
-            <p id='latlongdebug'>lat/long</p>
-            <p id='bcitsize'>size</p>
-            <p id='relbcitloc'>relative location</p>
-            <p id='relbcitlocpercent'>percentage location</p>
-        </div>
-        <p id='logout'>Logout</p>
-        <p id='debugShow'>Show Debug Info</p>
+  <div id="locationSearch">
+    <input id="locationInput" type="text" placeholder="Search for Building">
+    <div id="searchClick">Search</div>
+  </div>
+
+  <div id='menuButton'><img src="menu_button.png" width="100%" height="100%"></div>
+  <div id='menu' class='menuDown'>
+    <div>Hello, <span id="userName">User!</span></div>
+    <div id='debug' style='display: none;'>
+      <p id='latlongdebug'>lat/long</p>
+      <p id='bcitsize'>size</p>
+      <p id='relbcitloc'>relative location</p>
+      <p id='relbcitlocpercent'>percentage location</p>
     </div>
+    <p id='logout'>Logout</p>
+    <p id='debugShow'>Show Debug Info</p>
+  </div>
 </body>
 
 
@@ -115,7 +130,7 @@
 </script>
 
 <script>
-    
+  var userID;
   $(document).ready(function () {
     $("#menuButton").click(function () {
       $("menu").toggleClass("menuUp");
@@ -139,6 +154,37 @@
         $("#debug").css({ "display": "block" });
         $("#debugShow").text("Hide Debug Info");
         debugIsShown = true;
+      }
+    });
+
+    $("#locationInput").focus(function (e) {
+      $("#searchClick").css({ display: "block" });
+    });
+    $("#locationInput").blur(function (e) {
+      $("#searchClick").css({ display: "none" });
+    });
+    $("#locationInput").keydown(function (e) {
+      let keycode = (e.keyCode ? e.keyCode : e.which);
+      if (keycode == 13) {
+        let input = $("#locationInput");
+        if (userID && (input.val() != "")) {
+          console.log("setting location");
+          db.collection("users").doc(userID).collection("history").doc(input.val()).set({
+            location: input.val()
+          }).then(console.log("Updated location"));
+        } else {
+          console.log("Not logged in or no input");
+        }
+      }
+    });
+    $("#searchClick").click(function (e) {
+      let input = $("#locationInput");
+      if (userID) {
+        db.collection("users").doc(userID).collection("history").doc(input.val()).add({
+          location: input.val()
+        });
+      } else {
+        console.log("Not logged in");
       }
     });
 
@@ -217,25 +263,28 @@
     //when user logs in, writes user name and email in Firestore
     if (user) {
       let userdb = db.collection("users");
+      userID = user.uid;
 
       userdb.doc(user.uid).set({
         name: user.displayName,
         email: user.email
       });
-      
-      document.getElementById("userName").innerHTML = user.displayName;
+
+      db.collection("users").doc(userID).get().then(function (doc) {
+        document.getElementById("userName").innerHTML = doc.data().name;
+      });
     } else {
       console.log("No user logged in");
     }
     //reads user current location stored in Firestore
   });
-  
+
   //read: .get() , .onSnapshot()
   //write: .set() , .update() , .create() , .add()  
-  
+
   //write: search history and read: search history when user clicks on searchbar
   //data-entry: building locations and read: building coordinates when user selects building
-  
+
 
   getLocation();
 </script>
