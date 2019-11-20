@@ -209,23 +209,9 @@
     
     if (user) {
       db.collection("Buildings").doc("SE14").set({
-        latitude: "49.2505439",
-        longitude: "-122.9927971"
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
       })
-    }
-    
-    
-    
-    
-    
-    db.collection("Buildings").doc("SE14")
-      .onSnapshot(function(doc) {
-        console.log("Current data: ", doc.data());
-    })
-      
-    .onSnapshot()
-    if (location = latitude and longitutde) {
-      read and say ("library");
     }
     
   });
