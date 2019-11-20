@@ -26,8 +26,20 @@
 
   <style>
     body {
-      background-image: url(./tempmapbg.png);
+      /* background-image: url(./tempmapbg.png); */
+      background-color: blue;
       background-size: 100vw 100vh;
+      overflow: hidden;
+    }
+
+    #mapScroll {
+      position: fixed;
+      background-image: url(./tempmapbg.png);
+      background-size: 100% 100%;
+      /* Change these values to 100vw / 100vh when you need to test the proper position */
+      width: 100vw;
+      height: 100vh;
+      z-index: -10;
     }
 
     #menuButton {
@@ -60,6 +72,10 @@
       font-size: 1.3em;
     }
 
+    #menu>.clickable:hover {
+      cursor: pointer;
+    }
+
     .menuUp {
       bottom: 0;
     }
@@ -74,6 +90,7 @@
   <span id='locationDot'
     style='position: fixed; background-color: red; width: 20px; height: 20px; border-radius: 50%; top: 0px;'></span>
   <div id='menuButton'></div>
+  <span id='mapScroll'></span>
   <div id='menu' class='menuDown'>
     <div>Hello, <span id="userName">User!</span></div>
     <div id='debug' style='display: none;'>
@@ -82,10 +99,12 @@
       <p id='relbcitloc'>relative location</p>
       <p id='relbcitlocpercent'>percentage location</p>
     </div>
-    <p id='logout'>Logout</p>
-    <p id='debugShow'>Show Debug Info</p>
+    <p id='logout' class="clickable">Logout</p>
+    <p id='debugShow' class="clickable">Show Debug Info</p>
   </div>
 </body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <script>
   // Your web app's Firebase configuration
@@ -104,56 +123,67 @@
 </script>
 
 <script>
-  function _init() {
-    var menuButton = document.getElementById("menuButton");
-    menuButton.addEventListener("click", menuPop);
-
-    var logoutButton = document.getElementById("logout");
-    logoutButton.addEventListener("click", logout);
-
-    var debugShow = document.getElementById("debugShow");
-    debugShow.addEventListener("click", showDebugInfo);
-    getLocation();
-  }
-
-  var menuIsDown = true;
-  function menuPop() {
-    if (!menuIsDown) {
-      document.getElementById("menu").classList.remove("menuUp");
-      document.getElementById("menu").classList.add("menuDown");
-      menuIsDown = true;
-    } else {
-      document.getElementById("menu").classList.add("menuUp");
-      document.getElementById("menu").classList.remove("menuDown");
-      menuIsDown = false;
-    }
-  }
-
-  function logout() {
-    let _this = document.getElementById("logout");
-
-    firebase.auth().signOut().then(function () {
-      window.location = "index.html";
-    }, function (e) {
-      console.log("You can't sign out.");
+  $(document).ready(function () {
+    $("#menuButton").click(function () {
+      $("#menu").toggleClass("menuUp");
+      $("#menu").toggleClass("menuDown");
     });
-  }
 
-  var debugIsShown = false;
-  function showDebugInfo() {
-    let _this = document.getElementById("debugShow");
-    let info = document.getElementById("debug");
+    $("#logout").click(function () {
+      firebase.auth().signOut().then(function () {
+        window.location = "index.html";
+      }, function (e) {
+        console.log("You can't sign out.");
+      });
+    });
 
-    if (debugIsShown) {
-      info.style = "display: none;";
-      _this.innerText = "Show Debug Info";
-      debugIsShown = false;
-    } else {
-      info.style = "display: block;";
-      _this.innerText = "Hide Debug Info";
-      debugIsShown = true;
-    }
-  }
+    let debugIsShown = false;
+    $("#debugShow").click(function () {
+      if (debugIsShown) {
+        $("#debug").css({ "display": "none" });
+        $("#debugShow").text("Show Debug Info");
+        debugIsShown = false;
+      } else {
+        $("#debug").css({ "display": "block" });
+        $("#debugShow").text("Hide Debug Info");
+        debugIsShown = true;
+      }
+    });
+
+    // if time allows it, make the background scrollable. Don't worry about it for now.
+    // let pos1 = 0;
+    // let pos2 = 0;
+    // let pos3 = 0;
+    // let pos4 = 0;
+    // let oldPositionX = 0;
+    // let oldPositionY = 0;
+    // let scrollingMap = false;
+    // $("#mapScroll").mousedown(function (e) {
+    //   scrollingMap = true;
+    //   pos3 = e.pageX;
+    //   pos4 = e.pageY;
+    // });
+    // $("#mapScroll").mouseup(function (e) {
+    //   scrollingMap = false;
+    //   pos3 = e.pageX;
+    //   pos4 = e.pageY;
+    // });
+    // $("#mapScroll").mouseleave(function (e) {
+    //   scrollingMap = false;
+    //   pos3 = e.pageX;
+    //   pos4 = e.pageY;
+    // });
+    // $("#mapScroll").mousemove(function (e) {
+    //   if (scrollingMap) {
+    //     pos1 = e.pageX - pos3;
+    //     pos2 = e.pageY - pos4;
+    //     // pos3 = e.pageX;
+    //     // pos4 = e.pageY;
+
+    //     $("#mapScroll").css({ transform: "translate(" + pos1 + "px," + pos2 + "px)" });
+    //   }
+    // });
+  });
 
   function getLocation() {
     if (navigator.geolocation) {
@@ -208,7 +238,7 @@
     }
   });
 
-  _init();
+  getLocation();
 </script>
 
 </html>
