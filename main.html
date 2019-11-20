@@ -193,7 +193,7 @@
 
   firebase.auth().onAuthStateChanged(function () {
     var user = firebase.auth().currentUser;
-
+    
     if (user) {
       let userdb = db.collection("users");
 
@@ -201,12 +201,32 @@
         name: user.displayName,
         email: user.email
       });
-
+      
       document.getElementById("userName").innerHTML = user.displayName;
     } else {
       console.log("No user logged in");
     }
+    
+    db.collection("Buildings").doc("SE14").set({
+    latitude: "49.2505439",
+    longitude: "-122.9927971"
   });
+  .then(function() {
+    console.log("Location successfully written!");
+  })
+  .catch(function(error) {
+    console.error("Error writing location: ", error);
+  });
+    
+    
+  });
+  
+  //read: .get() , .onSnapshot()
+  //write: .set() , .update() , .create() , .add()  
+  
+  //write: search history and read: search history when user clicks on searchbar
+  //data-entry: building locations and read: building coordinates when user selects building
+  
 
   _init();
 </script>
