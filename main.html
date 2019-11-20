@@ -2,239 +2,260 @@
 <html lang="en">
 
 <head>
-  <title>Main Page</title>
-  <meta charset="utf-8" />
-  <link type='text/css' rel='stylesheet' href='style2.css' />
+    <title>Main Page</title>
+    <meta charset="utf-8" />
+    <link type='text/css' rel='stylesheet' href='style2.css' />
 
-  <!------------------------------------------------------------------------------>
-  <!-- Bootstrap for Mobile-first                                               -->
-  <!------------------------------------------------------------------------------>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!------------------------------------------------------------------------------>
+    <!-- Bootstrap for Mobile-first                                               -->
+    <!------------------------------------------------------------------------------>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-  <!------------------------------------------------------------------------------>
-  <!-- Add Firebase products that you want to use                               -->
-  <!------------------------------------------------------------------------------>
-  <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-firestore.js"></script>
-  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
-  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <!------------------------------------------------------------------------------>
+    <!-- Add Firebase products that you want to use                               -->
+    <!------------------------------------------------------------------------------>
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-firestore.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
 
-  <style>
-    body {
-      background-image: url(./tempmapbg.png);
-      background-size: 100vw 100vh;
-    }
+    <style>
+        body {
+            background-image: url(./tempmapbg.png);
+            background-size: 100vw 100vh;
+        }
 
-    #menuButton {
-      display: block;
-      background-color: green;
-      width: 20vw;
-      height: 20vw;
-      position: fixed;
-      bottom: 5%;
-      left: 40%;
-      border-radius: 50%;
-      z-index: 10;
-    }
+        #menuButton {
+            display: block;
+            background-color: green;
+            width: 20vw;
+            height: 20vw;
+            position: fixed;
+            bottom: 5%;
+            left: 40%;
+            border-radius: 50%;
+            z-index: 10;
+        }
 
-    #menu {
-      display: block;
-      height: 80vh;
-      width: 100vw;
-      position: fixed;
-      background-color: rgba(67, 67, 67, 0.6);
-      z-index: 0;
-      color: white;
-      text-align: left;
-      transition-duration: 200ms;
-      transition-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
-    }
+        #menu {
+            display: block;
+            height: 80vh;
+            width: 100vw;
+            position: fixed;
+            background-color: rgba(67, 67, 67, 0.6);
+            z-index: 0;
+            color: white;
+            text-align: left;
+            transition-duration: 200ms;
+            transition-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+        }
 
-    #menu>* {
-      margin-left: 8px;
-      font-size: 1.3em;
-    }
+        #menu>* {
+            margin-left: 8px;
+            font-size: 1.3em;
+        }
 
-    .menuUp {
-      bottom: 0;
-    }
+        .menuUp {
+            bottom: 0;
+        }
 
-    .menuDown {
-      bottom: -100%;
-    }
-  </style>
+        .menuDown {
+            bottom: -100%;
+        }
+
+    </style>
 </head>
 
 <body>
-  <span id='locationDot'
-    style='position: fixed; background-color: red; width: 20px; height: 20px; border-radius: 50%; top: 0px;'></span>
-  <div id='menuButton'></div>
-  <div id='menu' class='menuDown'>
-    <div>Hello, <span id="userName">User!</span></div>
-    <div id='debug' style='display: none;'>
-      <p id='latlongdebug'>lat/long</p>
-      <p id='bcitsize'>size</p>
-      <p id='relbcitloc'>relative location</p>
-      <p id='relbcitlocpercent'>percentage location</p>
+    <span id='locationDot' style='position: fixed; background-color: red; width: 20px; height: 20px; border-radius: 50%; top: 0px;'></span>
+
+    <form>
+        <input type="text" id="searchbar" value="Input Location">
+        <div id="alert" style="color: red"></div>
+        <button onclick="getData();">Search</button>
+    </form>
+    <div id='menuButton'></div>
+    <div id='menu' class='menuDown'>
+        <div>Hello, <span id="userName">User!</span></div>
+        <div id='debug' style='display: none;'>
+            <p id='latlongdebug'>lat/long</p>
+            <p id='bcitsize'>size</p>
+            <p id='relbcitloc'>relative location</p>
+            <p id='relbcitlocpercent'>percentage location</p>
+        </div>
+        <p id='logout'>Logout</p>
+        <p id='debugShow'>Show Debug Info</p>
     </div>
-    <p id='logout'>Logout</p>
-    <p id='debugShow'>Show Debug Info</p>
-  </div>
 </body>
 
 <script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyCk0i8nhu1vqh0c9dUIUEGy_2jNq6i4Glw",
-    authDomain: "campus-nav-8edaf.firebaseapp.com",
-    databaseURL: "https://campus-nav-8edaf.firebaseio.com",
-    projectId: "campus-nav-8edaf",
-    storageBucket: "campus-nav-8edaf.appspot.com",
-    messagingSenderId: "926858289313",
-    appId: "1:926858289313:web:7171d305abb80d1a60d0e0"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  var db = firebase.firestore();
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyCk0i8nhu1vqh0c9dUIUEGy_2jNq6i4Glw",
+        authDomain: "campus-nav-8edaf.firebaseapp.com",
+        databaseURL: "https://campus-nav-8edaf.firebaseio.com",
+        projectId: "campus-nav-8edaf",
+        storageBucket: "campus-nav-8edaf.appspot.com",
+        messagingSenderId: "926858289313",
+        appId: "1:926858289313:web:7171d305abb80d1a60d0e0"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+
 </script>
 
 <script>
-  function _init() {
-    var menuButton = document.getElementById("menuButton");
-    menuButton.addEventListener("click", menuPop);
+    //    Search Bar
+    function getData() {
+        var a = document.getElementById("searchbar").value;
+        var message = "user entered this value: " + a;
 
-    var logoutButton = document.getElementById("logout");
-    logoutButton.addEventListener("click", logout);
-
-    var debugShow = document.getElementById("debugShow");
-    debugShow.addEventListener("click", showDebugInfo);
-    getLocation();
-  }
-
-  var menuIsDown = true;
-  function menuPop() {
-    if (!menuIsDown) {
-      document.getElementById("menu").classList.remove("menuUp");
-      document.getElementById("menu").classList.add("menuDown");
-      menuIsDown = true;
-    } else {
-      document.getElementById("menu").classList.add("menuUp");
-      document.getElementById("menu").classList.remove("menuDown");
-      menuIsDown = false;
+        document.getElementById("alert").innerHTML = a;
+        console.log(a);
     }
-  }
 
-  function logout() {
-    let _this = document.getElementById("logout");
 
-    firebase.auth().signOut().then(function () {
-      window.location = "index.html";
-    }, function (e) {
-      console.log("You can't sign out.");
+
+    function _init() {
+        var menuButton = document.getElementById("menuButton");
+        menuButton.addEventListener("click", menuPop);
+
+        var logoutButton = document.getElementById("logout");
+        logoutButton.addEventListener("click", logout);
+
+        var debugShow = document.getElementById("debugShow");
+        debugShow.addEventListener("click", showDebugInfo);
+        getLocation();
+    }
+
+    var menuIsDown = true;
+
+    function menuPop() {
+        if (!menuIsDown) {
+            document.getElementById("menu").classList.remove("menuUp");
+            document.getElementById("menu").classList.add("menuDown");
+            menuIsDown = true;
+        } else {
+            document.getElementById("menu").classList.add("menuUp");
+            document.getElementById("menu").classList.remove("menuDown");
+            menuIsDown = false;
+        }
+    }
+
+    function logout() {
+        let _this = document.getElementById("logout");
+
+        firebase.auth().signOut().then(function() {
+            window.location = "index.html";
+        }, function(e) {
+            console.log("You can't sign out.");
+        });
+    }
+
+    var debugIsShown = false;
+
+    function showDebugInfo() {
+        let _this = document.getElementById("debugShow");
+        let info = document.getElementById("debug");
+
+        if (debugIsShown) {
+            info.style = "display: none;";
+            _this.innerText = "Show Debug Info";
+            debugIsShown = false;
+        } else {
+            info.style = "display: block;";
+            _this.innerText = "Hide Debug Info";
+            debugIsShown = true;
+        }
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(showPosition);
+        } else {
+            document.getElementById("latlongdebug").innerHTML = "No Geolocation :(";
+        }
+    }
+
+    function showPosition(position) {
+        console.log("Updated Position");
+
+        document.getElementById("latlongdebug").innerHTML = "Lat: " + position.coords.latitude +
+            "<br />Long: " + position.coords.longitude;
+
+        var bcitLeft = -123.004656;
+        var bcitRight = -122.998273;
+        var bcitTop = 49.254732;
+        var bcitBottom = 49.242950;
+
+        var xWidth = bcitRight - bcitLeft;
+        var yHeight = bcitTop - bcitBottom;
+
+        var relLat = bcitTop - position.coords.latitude;
+        var relLong = bcitRight - position.coords.longitude;
+
+        var latPercent = (relLat / xWidth) * 100;
+        var longPercent = (relLat / yHeight) * 100;
+
+        document.getElementById("bcitsize").innerHTML = "BCIT width: " + xWidth + "<br />BCIT height: " + yHeight;
+        document.getElementById("relbcitloc").innerHTML = "Relative width: " + relLat + "<br />Relative height: " + relLong;
+        document.getElementById("relbcitlocpercent").innerHTML = "% width: " + (100 - latPercent) + "<br />% height: " + longPercent;
+
+        var pos = document.getElementById("locationDot");
+        pos.style.transform = "translate(" + (100 - latPercent) + "vw, " + longPercent + "vh)";
+    }
+
+    firebase.auth().onAuthStateChanged(function() {
+        var user = firebase.auth().currentUser;
+        //when user logs in, writes user name and email in Firestore
+        if (user) {
+            let userdb = db.collection("users");
+
+            userdb.doc(user.uid).set({
+                name: user.displayName,
+                email: user.email
+            });
+
+            document.getElementById("userName").innerHTML = user.displayName;
+        } else {
+            console.log("No user logged in");
+        }
+        //when user logs in / refreshes page, writes user current location in Firestore
+        if (user) {
+            db.collection("location").doc("SW01").set({
+
+                latitude: "49.2505439",
+                longitude: "-122.9927971"
+            })
+        }
+        // //reads user current location stored in Firestore
+        // if (user) {
+        //   db.collection("Location").doc("SW01").get().then(function(doc) {
+        //     if (doc.exists) {
+        //       console.log("Document data:", doc.data());
+        //     } else {
+        //       console.log("No such document!");
+        //     }
+        //   })
+        // }
+
     });
-  }
 
-  var debugIsShown = false;
-  function showDebugInfo() {
-    let _this = document.getElementById("debugShow");
-    let info = document.getElementById("debug");
+    //read: .get() , .onSnapshot()
+    //write: .set() , .update() , .create() , .add()  
 
-    if (debugIsShown) {
-      info.style = "display: none;";
-      _this.innerText = "Show Debug Info";
-      debugIsShown = false;
-    } else {
-      info.style = "display: block;";
-      _this.innerText = "Hide Debug Info";
-      debugIsShown = true;
-    }
-  }
+    //write: search history and read: search history when user clicks on searchbar
+    //data-entry: building locations and read: building coordinates when user selects building
 
-  function getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(showPosition);
-    } else {
-      document.getElementById("latlongdebug").innerHTML = "No Geolocation :(";
-    }
-  }
 
-  function showPosition(position) {
-    console.log("Updated Position");
+    _init();
 
-    document.getElementById("latlongdebug").innerHTML = "Lat: " + position.coords.latitude
-      + "<br />Long: " + position.coords.longitude;
-
-    var bcitLeft = -123.004656;
-    var bcitRight = -122.998273;
-    var bcitTop = 49.254732;
-    var bcitBottom = 49.242950;
-
-    var xWidth = bcitRight - bcitLeft;
-    var yHeight = bcitTop - bcitBottom;
-
-    var relLat = bcitTop - position.coords.latitude;
-    var relLong = bcitRight - position.coords.longitude;
-
-    var latPercent = (relLat / xWidth) * 100;
-    var longPercent = (relLat / yHeight) * 100;
-
-    document.getElementById("bcitsize").innerHTML = "BCIT width: " + xWidth + "<br />BCIT height: " + yHeight;
-    document.getElementById("relbcitloc").innerHTML = "Relative width: " + relLat + "<br />Relative height: " + relLong;
-    document.getElementById("relbcitlocpercent").innerHTML = "% width: " + (100 - latPercent) + "<br />% height: " + longPercent;
-
-    var pos = document.getElementById("locationDot");
-    pos.style.transform = "translate(" + (100 - latPercent) + "vw, " + longPercent + "vh)";
-  }
-
-  firebase.auth().onAuthStateChanged(function () {
-    var user = firebase.auth().currentUser;
-    //when user logs in, writes user name and email in Firestore
-    if (user) {
-      let userdb = db.collection("users");
-
-      userdb.doc(user.uid).set({
-        name: user.displayName,
-        email: user.email
-      });
-      
-      document.getElementById("userName").innerHTML = user.displayName;
-    } else {
-      console.log("No user logged in");
-    }
-    //when user logs in / refreshes page, writes user current location in Firestore
-    if (user) {
-      db.collection("location").doc("SW01").set({
-
-        latitude: "49.2505439",
-        longitude: "-122.9927971"
-      })
-    }
-    // //reads user current location stored in Firestore
-    // if (user) {
-    //   db.collection("Location").doc("SW01").get().then(function(doc) {
-    //     if (doc.exists) {
-    //       console.log("Document data:", doc.data());
-    //     } else {
-    //       console.log("No such document!");
-    //     }
-    //   })
-    // }
-    
-  });
-  
-  //read: .get() , .onSnapshot()
-  //write: .set() , .update() , .create() , .add()  
-  
-  //write: search history and read: search history when user clicks on searchbar
-  //data-entry: building locations and read: building coordinates when user selects building
-  
-
-  _init();
 </script>
 
 </html>
