@@ -209,8 +209,8 @@
 
     if (user) {
       db.collection("Location").doc(user.uid).set({
-        latitude: "49.2505439",
-        longitude: "-122.9927971"
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
       })
     }
     
