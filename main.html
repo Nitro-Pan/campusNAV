@@ -271,8 +271,9 @@
         email: user.email
       });
 
-      let userName = db.collection("users").doc(userID).get();
-      document.getElementById("userName").innerHTML = user.displayName;
+      db.collection("users").doc(userID).get().then(function (doc) {
+        document.getElementById("userName").innerHTML = doc.data().name;
+      });
     } else {
       console.log("No user logged in");
     }
