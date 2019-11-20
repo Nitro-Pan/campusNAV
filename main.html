@@ -220,10 +220,9 @@
     var pos = document.getElementById("locationDot");
     pos.style.transform = "translate(" + (100 - latPercent) + "vw, " + longPercent + "vh)";
   }
-
   firebase.auth().onAuthStateChanged(function () {
     var user = firebase.auth().currentUser;
-
+    //when user logs in, writes user name and email in Firestore
     if (user) {
       let userdb = db.collection("users");
 
@@ -231,12 +230,20 @@
         name: user.displayName,
         email: user.email
       });
-
+      
       document.getElementById("userName").innerHTML = user.displayName;
     } else {
       console.log("No user logged in");
     }
+    //reads user current location stored in Firestore
   });
+  
+  //read: .get() , .onSnapshot()
+  //write: .set() , .update() , .create() , .add()  
+  
+  //write: search history and read: search history when user clicks on searchbar
+  //data-entry: building locations and read: building coordinates when user selects building
+  
 
   getLocation();
 </script>
