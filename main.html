@@ -170,8 +170,8 @@
     $("#locationInput").focus(function (e) {
       $("#searchClick").css({ display: "block" });
     });
-    $("#locationInput").blur(function (e) {
-      sleep(1);
+    $("#locationInput").blur(async function (e) {
+      await sleep(100);
       $("#searchClick").css({ display: "none" });
     });
     $("#locationInput").keydown(function (e) {
@@ -182,7 +182,7 @@
           console.log("setting location");
           db.collection("users").doc(userID).collection("history").doc(input.val()).set({
             location: input.val()
-          }).then(console.log("Updated location"));
+          }).then(console.log("updated location"));
         } else {
           console.log("Not logged in or no input");
         }
@@ -190,12 +190,13 @@
     });
     $("#searchClick").click(function (e) {
       let input = $("#locationInput");
-      if (userID) {
-        db.collection("users").doc(userID).collection("history").doc(input.val()).add({
+      if (userID && (input.val() != "")) {
+        console.log("setting location");
+        db.collection("users").doc(userID).collection("history").doc(input.val()).set({
           location: input.val()
-        });
+        }).then(console.log("Updated location"));
       } else {
-        console.log("Not logged in");
+        console.log("Not logged in or no input");
       }
     });
 
@@ -233,6 +234,10 @@
     //   }
     // });
   });
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
   function getLocation() {
     if (navigator.geolocation) {
