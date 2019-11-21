@@ -134,9 +134,8 @@
   $(document).ready(function () {
     let menuIsDown = true;
     $("#menuButton").click(function () {
-      $("menu").toggleClass("menuUp");
+      $("#menu").toggleClass("menuUp");
       $("#menu").toggleClass("menuDown");
-<<<<<<< HEAD
 
       if (menuIsDown) {
         $("#menuButton img").attr("src", "close_button.png");
@@ -147,9 +146,6 @@
       }
     });
 
-=======
-    }); 
->>>>>>> 12bccdd04258257d15b32fe8ed27526c091f5cab
     $("#logout").click(function () {
       firebase.auth().signOut().then(function () {
         window.location = "index.html";
