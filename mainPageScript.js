@@ -149,10 +149,10 @@ function showPosition(position) {
 
 	var bcitLeft = -123.004656;
 	// var bcitRight = -122.998273;
-	var bcitRight = -122.997;
+	var bcitRight = -122.996;
 	var bcitTop = 49.254732;
 	// var bcitBottom = 49.24295;
-	var bcitBottom = 49.2438;
+	var bcitBottom = 49.2432;
 
 	var xWidth = bcitRight - bcitLeft;
 	var yHeight = bcitTop - bcitBottom;
