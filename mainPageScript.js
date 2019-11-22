@@ -39,18 +39,29 @@ $(document).ready(function() {
 	});
 
 	$('#locationInput').focus(function(e) {
+		//show the search button when the input field is focused
 		$('#searchClick').css({ display: 'block' });
+		displayHistory();
 	});
+
+	function displayHistory() {
+		$('#historyDrop').css({ display: 'block' });
+	}
+
 	$('#locationInput').blur(async function(e) {
+		//hack so that the button gets pressed before it goes away
 		await sleep(100);
 		$('#searchClick').css({ display: 'none' });
 	});
 	$('#locationInput').keydown(function(e) {
 		let keycode = e.keyCode ? e.keyCode : e.which;
+		//if the enter key is pressed
 		if (keycode == 13) {
 			let input = $('#locationInput');
+			//if the userID exists and the input isn't empty
 			if (userID && input.val() != '') {
 				console.log('setting location');
+				//set the location to a collection under their ID
 				db
 					.collection('users')
 					.doc(userID)
@@ -137,9 +148,11 @@ function showPosition(position) {
 		'Lat: ' + position.coords.latitude + '<br />Long: ' + position.coords.longitude;
 
 	var bcitLeft = -123.004656;
-	var bcitRight = -122.998273;
+	// var bcitRight = -122.998273;
+	var bcitRight = -122.997;
 	var bcitTop = 49.254732;
-	var bcitBottom = 49.24295;
+	// var bcitBottom = 49.24295;
+	var bcitBottom = 49.2438;
 
 	var xWidth = bcitRight - bcitLeft;
 	var yHeight = bcitTop - bcitBottom;
