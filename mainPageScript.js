@@ -206,7 +206,7 @@ function showPosition(position) {
 		'% width: ' + latPercent + '<br />% height: ' + longPercent;
 
 	var pos = document.getElementById('locationDot');
-	pos.style.transform = 'translate(' + (100 - latPercent) + 'vw, ' + longPercent + 'vh)';
+	pos.style.transform = 'translate(' + latPercent + 'vw, ' + longPercent + 'vh)';
 }
 firebase.auth().onAuthStateChanged(function() {
 	var user = firebase.auth().currentUser;
