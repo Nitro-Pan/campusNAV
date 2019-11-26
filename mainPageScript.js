@@ -46,6 +46,11 @@ $(document).ready(function() {
 
 	function displayHistory() {
 		$('#historyDrop').css({ display: 'block' });
+		db.collection('users').doc(userID).collection('history').doc('locations').get().then(function(data) {
+			for (let i of data.data().location) {
+				console.log(i);
+			}
+		});
 	}
 
 	$('#locationInput').blur(async function(e) {
@@ -57,42 +62,74 @@ $(document).ready(function() {
 		let keycode = e.keyCode ? e.keyCode : e.which;
 		//if the enter key is pressed
 		if (keycode == 13) {
-			let input = $('#locationInput');
-			//if the userID exists and the input isn't empty
-			if (userID && input.val() != '') {
-				console.log('setting location');
-				//set the location to a collection under their ID
-				db
-					.collection('users')
-					.doc(userID)
-					.collection('history')
-					.doc(input.val())
-					.set({
-						location: input.val()
-					})
-					.then(console.log('updated location'));
-			} else {
-				console.log('Not logged in or no input');
-			}
+			addHistoryData();
 		}
 	});
 	$('#searchClick').click(function(e) {
-		let input = $('#locationInput');
-		if (userID && input.val() != '') {
-			console.log('setting location');
-			db
-				.collection('users')
-				.doc(userID)
-				.collection('history')
-				.doc(input.val())
-				.set({
-					location: input.val()
-				})
-				.then(console.log('Updated location'));
-		} else {
-			console.log('Not logged in or no input');
-		}
+		addHistoryData();
 	});
+
+	function addHistoryData() {
+		let input = $('#locationInput');
+		let snapData = [ 'emptyLocation' ];
+		db
+			.collection('users')
+			.doc(userID)
+			.collection('history')
+			.doc('locations')
+			.get()
+			.then(function(snap) {
+				//see if the location attribute exists
+				try {
+					//if it does, no problem
+					snapData = snap.data()['location'];
+				} catch (e) {
+					//if it doesnt, the data will be correctly added in the next .then()
+					console.log("location doc doesn't exist, adding in later");
+				}
+				//console.log(snapData);
+			})
+			.then(function() {
+				if (userID && input.val() != '') {
+					//if snapData has some new information in it
+					if (snapData[0] != 'emptyLocation') {
+						console.log('snapdata exists');
+						let addedValue = false;
+						//check to see if snapData already has this entry
+						for (let i in snapData) {
+							//if it does, remove it and re add it.
+							if (snapData[i] == input.val()) {
+								console.log('found value ' + i + ' already in the array');
+								snapData.splice(i, 1);
+								snapData.push(input.val());
+								addedValue = true;
+							}
+						}
+						if (!addedValue) {
+							snapData.push(input.val());
+						}
+						//otherwise, clear snapdata and initialize it
+					} else {
+						console.log("array doesn't exist, initializing");
+						snapData = [];
+						snapData.push(input.val());
+					}
+					console.log('array before setting is ' + snapData);
+					console.log('setting location');
+					db
+						.collection('users')
+						.doc(userID)
+						.collection('history')
+						.doc('locations')
+						.set({
+							location: snapData
+						})
+						.then(console.log('Updated location'));
+				} else {
+					console.log('Not logged in or no input');
+				}
+			});
+	}
 
 	// if time allows it, make the background scrollable. Don't worry about it for now.
 	// let pos1 = 0;
