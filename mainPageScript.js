@@ -203,7 +203,7 @@ function showPosition(position) {
 	document.getElementById('bcitsize').innerHTML = 'BCIT width: ' + xWidth + '<br />BCIT height: ' + yHeight;
 	document.getElementById('relbcitloc').innerHTML = 'Relative width: ' + relLat + '<br />Relative height: ' + relLong;
 	document.getElementById('relbcitlocpercent').innerHTML =
-		'% width: ' + (100 - latPercent) + '<br />% height: ' + longPercent;
+		'% width: ' + latPercent + '<br />% height: ' + longPercent;
 
 	var pos = document.getElementById('locationDot');
 	pos.style.transform = 'translate(' + (100 - latPercent) + 'vw, ' + longPercent + 'vh)';
