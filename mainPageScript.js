@@ -144,7 +144,22 @@ $(document).ready(function() {
 				for (let i = 0; i < data.docs.length; i++) {
 					if ($('#locationInput').val().toUpperCase() == data.docs[i].id) {
 						db.collection('location').doc(data.docs[i].id).get().then((doc) => {
-							console.log(doc.data());
+							let outlineRight = doc.data().right;
+							let outlineLeft = doc.data().left;
+							let outlineTop = doc.data().top;
+							let outlineBottom = doc.data().bottom;
+							let leftEdge = 2.25 * (bcitLeft - outlineLeft) / xWidth * 100;
+							let topEdge = (bcitTop - outlineTop) / yHeight * 100;
+							let rightEdge = 2.25 * ((bcitLeft - outlineRight) / xWidth * 100) - leftEdge;
+							let bottomEdge = (bcitTop - outlineBottom) / yHeight * 100 - topEdge;
+							console.log(leftEdge);
+							console.log(rightEdge);
+							$('#buildingOutline').css({
+								display: 'block',
+								width: rightEdge + 'vw',
+								height: bottomEdge + 'vh',
+								transform: 'translate(' + leftEdge + 'vw, ' + topEdge + 'vh)'
+							});
 						});
 					}
 				}
@@ -152,6 +167,16 @@ $(document).ready(function() {
 		}
 	}
 });
+
+var bcitLeft = -123.004512;
+// var bcitRight = -122.998273;
+var bcitRight = -122.99;
+var bcitTop = 49.254732;
+// var bcitBottom = 49.24295;
+var bcitBottom = 49.2432;
+
+var xWidth = bcitLeft - bcitRight;
+var yHeight = bcitTop - bcitBottom;
 
 function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
@@ -171,20 +196,10 @@ function showPosition(position) {
 	document.getElementById('latlongdebug').innerHTML =
 		'Lat: ' + position.coords.latitude + '<br />Long: ' + position.coords.longitude;
 
-	var bcitLeft = -123.004656;
-	// var bcitRight = -122.998273;
-	var bcitRight = -122.99;
-	var bcitTop = 49.254732;
-	// var bcitBottom = 49.24295;
-	var bcitBottom = 49.2432;
-
-	var xWidth = bcitRight - bcitLeft;
-	var yHeight = bcitTop - bcitBottom;
-
 	var relLat = bcitTop - position.coords.latitude;
-	var relLong = bcitRight - position.coords.longitude;
+	var relLong = bcitLeft - position.coords.longitude * -1;
 
-	var latPercent = relLat / xWidth * 100;
+	var latPercent = relLat / xWidth * 100 * -1;
 	var longPercent = relLat / yHeight * 100;
 
 	document.getElementById('bcitsize').innerHTML = 'BCIT width: ' + xWidth + '<br />BCIT height: ' + yHeight;

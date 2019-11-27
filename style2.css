@@ -20,7 +20,7 @@ body {
 
 #menu {
 	display: block;
-	height: 60vh;
+	height: 70vh;
 	width: 100vw;
 	position: fixed;
 	background-color: rgba(67, 67, 67, 0.6);
@@ -77,6 +77,20 @@ body {
 }
 #historyDrop p:last-child {
 	border-bottom: solid 1px;
+}
+
+#buildingOutline {
+	margin: 0;
+	top: 0;
+	left: 0;
+	z-index: -9;
+	display: none;
+	position: fixed;
+	border-style: solid;
+	border-color: #53a764;
+	border-width: 1px;
+	background-color: #7dda8f;
+	background-color: rgba(125, 218, 143, 0.5);
 }
 
 body > div {
