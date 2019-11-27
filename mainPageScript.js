@@ -173,7 +173,7 @@ function showPosition(position) {
 
 	var bcitLeft = -123.004656;
 	// var bcitRight = -122.998273;
-	var bcitRight = -122.994;
+	var bcitRight = -122.99;
 	var bcitTop = 49.254732;
 	// var bcitBottom = 49.24295;
 	var bcitBottom = 49.2432;
