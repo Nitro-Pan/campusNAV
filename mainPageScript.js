@@ -45,18 +45,26 @@ $(document).ready(function() {
 	});
 
 	function displayHistory() {
+		$('#historyDrop').empty();
 		$('#historyDrop').css({ display: 'block' });
 		db.collection('users').doc(userID).collection('history').doc('locations').get().then(function(data) {
 			for (let i of data.data().location) {
-				console.log(i);
+				let para = $('<p>' + i + '</p>');
+				$('#historyDrop').prepend(para.clone());
 			}
 		});
 	}
+	$('#historyDrop').on('click', (e) => {
+		console.log(e.target.innerText);
+		$('#locationInput').val(e.target.innerText);
+		addHistoryData();
+	});
 
 	$('#locationInput').blur(async function(e) {
 		//hack so that the button gets pressed before it goes away
 		await sleep(100);
 		$('#searchClick').css({ display: 'none' });
+		$('#historyDrop').css({ display: 'none' });
 	});
 	$('#locationInput').keydown(function(e) {
 		let keycode = e.keyCode ? e.keyCode : e.which;
@@ -128,42 +136,21 @@ $(document).ready(function() {
 				} else {
 					console.log('Not logged in or no input');
 				}
+				findBuilding();
 			});
+
+		function findBuilding() {
+			db.collection('location').get().then((data) => {
+				for (let i = 0; i < data.docs.length; i++) {
+					if ($('#locationInput').val().toUpperCase() == data.docs[i].id) {
+						db.collection('location').doc(data.docs[i].id).get().then((doc) => {
+							console.log(doc.data());
+						});
+					}
+				}
+			});
+		}
 	}
-
-	// if time allows it, make the background scrollable. Don't worry about it for now.
-	// let pos1 = 0;
-	// let pos2 = 0;
-	// let pos3 = 0;
-	// let pos4 = 0;
-	// let oldPositionX = 0;
-	// let oldPositionY = 0;
-	// let scrollingMap = false;
-	// $("#mapScroll").mousedown(function (e) {
-	//   scrollingMap = true;
-	//   pos3 = e.pageX;
-	//   pos4 = e.pageY;
-	// });
-	// $("#mapScroll").mouseup(function (e) {
-	//   scrollingMap = false;
-	//   pos3 = e.pageX;
-	//   pos4 = e.pageY;
-	// });
-	// $("#mapScroll").mouseleave(function (e) {
-	//   scrollingMap = false;
-	//   pos3 = e.pageX;
-	//   pos4 = e.pageY;
-	// });
-	// $("#mapScroll").mousemove(function (e) {
-	//   if (scrollingMap) {
-	//     pos1 = e.pageX - pos3;
-	//     pos2 = e.pageY - pos4;
-	//     // pos3 = e.pageX;
-	//     // pos4 = e.pageY;
-
-	//     $("#mapScroll").css({ transform: "translate(" + pos1 + "px," + pos2 + "px)" });
-	//   }
-	// });
 });
 
 function sleep(ms) {
@@ -186,7 +173,7 @@ function showPosition(position) {
 
 	var bcitLeft = -123.004656;
 	// var bcitRight = -122.998273;
-	var bcitRight = -122.9954;
+	var bcitRight = -122.994433;
 	var bcitTop = 49.254732;
 	// var bcitBottom = 49.24295;
 	var bcitBottom = 49.2432;
