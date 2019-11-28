@@ -231,10 +231,4 @@ firebase.auth().onAuthStateChanged(function() {
 	//reads user current location stored in Firestore
 });
 
-//read: .get() , .onSnapshot()
-//write: .set() , .update() , .create() , .add()
-
-//write: search history and read: search history when user clicks on searchbar
-//data-entry: building locations and read: building coordinates when user selects building
-
 getLocation();
