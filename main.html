@@ -176,6 +176,8 @@
     });
     $("#locationInput").keydown(function (e) {
       let keycode = (e.keyCode ? e.keyCode : e.which);
+      //when user enters text and presses enter in search bar,
+      //textfield data gets written to user location history
       if (keycode == 13) {
         let input = $("#locationInput");
         if (userID && (input.val() != "")) {
@@ -276,31 +278,23 @@
   }
   firebase.auth().onAuthStateChanged(function () {
     var user = firebase.auth().currentUser;
-    //when user logs in, writes user name and email in Firestore
+
     if (user) {
       let userdb = db.collection("users");
       userID = user.uid;
-
-      userdb.doc(user.uid).set({
+      //when user logs in, writes user name and email in Firestore
+      userdb.doc(userID).set({
         name: user.displayName,
         email: user.email
       });
-
-      db.collection("users").doc(userID).get().then(function (doc) {
+      //after user logs in, reads and user name in menu
+      userdb.doc(userID).get().then(function (doc) {
         document.getElementById("userName").innerHTML = doc.data().name;
       });
     } else {
       console.log("No user logged in");
     }
-    //reads user current location stored in Firestore
   });
-
-  //read: .get() , .onSnapshot()
-  //write: .set() , .update() , .create() , .add()  
-
-  //write: search history and read: search history when user clicks on searchbar
-  //data-entry: building locations and read: building coordinates when user selects building
-
 
   getLocation();
 </script>
