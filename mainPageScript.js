@@ -206,7 +206,7 @@ function showPosition(position) {
 	var relLat = bcitTop - position.coords.latitude;
 	var relLong = bcitLeft - position.coords.longitude * -1;
 
-	var latPercent = relLat / xWidth * 100 * -1;
+	var latPercent = 1.4 * (relLat / xWidth * 100 * -1);
 	var longPercent = relLat / yHeight * 100;
 
 	document.getElementById('bcitsize').innerHTML = 'BCIT width: ' + xWidth + '<br />BCIT height: ' + yHeight;
