@@ -50,6 +50,8 @@ body {
 
 #locationInput {
 	width: 60vw;
+	border-width: 3px;
+	border-style: solid;
 }
 
 #searchClick {
@@ -89,8 +91,8 @@ body {
 	border-style: solid;
 	border-color: #53a764;
 	border-width: 1px;
-	background-color: #7dda8f;
-	background-color: rgba(125, 218, 143, 0.5);
+	background-color: #7115ab;
+	background-color: rgba(113, 21, 171, 0.5);
 }
 
 body > div {
