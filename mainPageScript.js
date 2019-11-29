@@ -14,6 +14,9 @@ $(document).ready(function() {
 		}
 	});
 
+	$('#buildingOutline').on('click', (e) => {
+		$('#locationInput').val("That doesn't do anything");
+	});
 	$('#clearHistory').click(() => {
 		db.collection('users').doc(userID).collection('history').doc('locations').delete();
 	});
