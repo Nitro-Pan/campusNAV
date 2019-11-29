@@ -14,6 +14,9 @@ $(document).ready(function() {
 		}
 	});
 
+	$('#clearHistory').click(() => {
+		db.collection('users').doc(userID).collection('history').doc('locations').delete();
+	});
 	$('#logout').click(function() {
 		firebase.auth().signOut().then(
 			function() {
