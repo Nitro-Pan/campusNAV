@@ -227,7 +227,7 @@ function showPosition(position) {
 	var relLong = bcitRight - position.coords.longitude;
 
 	// Scales current location
-	var latPercent = -1.8 * (relLat / xWidth * 100);
+	var latPercent = -2.0 * (relLat / xWidth * 100);
 	var longPercent = relLat / yHeight * 100;
 
 	document.getElementById('bcitsize').innerHTML = 'BCIT width: ' + xWidth + '<br />BCIT height: ' + yHeight;
