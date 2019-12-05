@@ -21,9 +21,11 @@ $(document).ready(function() {
 
 	// Command for when the searched building is clicked
 	$('#buildingOutline').on('click', (e) => {
-		// Prints out that the button does not do anything
+
+		var popup = document.getElementById("myPopup");
+ 		popup.classList.toggle("show");
+
 		// $('#locationInput').val("That doesn't do anything");
-		$('#locationInput').attr('src', 'menu_button.png');
 	});
 	$('#clearHistory').click(() => {
 		db.collection('users').doc(userID).collection('history').doc('locations').delete();
