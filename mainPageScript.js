@@ -219,7 +219,7 @@ function showPosition(position) {
 }
 firebase.auth().onAuthStateChanged(function() {
 	var user = firebase.auth().currentUser;
-	//when user logs in, writes user name and email in Firestore
+	// When user logs in, writes user name and email in Firestore
 	if (user) {
 		let userdb = db.collection('users');
 		userID = user.uid;
@@ -235,7 +235,6 @@ firebase.auth().onAuthStateChanged(function() {
 	} else {
 		console.log('No user logged in');
 	}
-	//reads user current location stored in Firestore
 });
-
+// Reads user current location stored in Firestore
 getLocation();
