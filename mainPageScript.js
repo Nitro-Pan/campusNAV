@@ -195,11 +195,11 @@ $(document).ready(function() {
 });
 
 var bcitLeft = -123.004512;
-var bcitRight = -122.998273;
-// var bcitRight = -122.99;
+// var bcitRight = -122.998273;
+var bcitRight = -122.99;
 var bcitTop = 49.254732;
-var bcitBottom = 49.24295;
-// var bcitBottom = 49.2432;
+// var bcitBottom = 49.24295;
+var bcitBottom = 49.2432;
 
 var xWidth = bcitLeft - bcitRight;
 var yHeight = bcitTop - bcitBottom;
