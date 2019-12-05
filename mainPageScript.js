@@ -1,21 +1,29 @@
 var userID;
 $(document).ready(function() {
 	let menuIsDown = true;
+	// Command for menu button when it's clicked
 	$('#menuButton').click(function() {
+		// Shows menu
 		$('#menu').toggleClass('menuUp');
+		// Hides menu
 		$('#menu').toggleClass('menuDown');
 
 		if (menuIsDown) {
+			// Shows close icon when menu is shown
 			$('#menuButton img').attr('src', 'close_button.png');
 			menuIsDown = false;
 		} else {
+			// Shows menu icon when menu is hidden
 			$('#menuButton img').attr('src', 'menu_button.png');
 			menuIsDown = true;
 		}
 	});
 
+	// Command for when the searched building is clicked
 	$('#buildingOutline').on('click', (e) => {
-		$('#locationInput').val("That doesn't do anything");
+		// Prints out that the button does not do anything
+		// $('#locationInput').val("That doesn't do anything");
+		$('#locationInput').attr('src', 'menu_button.png');
 	});
 	$('#clearHistory').click(() => {
 		db.collection('users').doc(userID).collection('history').doc('locations').delete();
