@@ -25,10 +25,6 @@ $(document).ready(function() {
 		$('#locationInput').val("That doesn't do anything");
 	});
 
-	$('#clearHistory').click(() => {
-		db.collection('users').doc(userID).collection('history').doc('locations').delete();
-	});
-
 	// Command for when the logout button is clicked
 	$('#logout').click(function() {
 		firebase.auth().signOut().then(
@@ -165,9 +161,11 @@ $(document).ready(function() {
 				findBuilding();
 			});
 
+		// Retrieves location from database
 		function findBuilding() {
 			db.collection('location').get().then((data) => {
 				for (let i = 0; i < data.docs.length; i++) {
+					// Changes all lower case letters into upper case for search entry
 					if ($('#locationInput').val().toUpperCase() == data.docs[i].id) {
 						db.collection('location').doc(data.docs[i].id).get().then((doc) => {
 							let outlineRight = doc.data().right;
@@ -180,6 +178,7 @@ $(document).ready(function() {
 							let bottomEdge = (bcitTop - outlineBottom) / yHeight * 100 - topEdge;
 							console.log(leftEdge);
 							console.log(rightEdge);
+							//Building outline
 							$('#buildingOutline').css({
 								display: 'block',
 								width: rightEdge + 'vw',
@@ -208,6 +207,7 @@ function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+// Retrieves current location
 function getLocation() {
 	if (navigator.geolocation) {
 		navigator.geolocation.watchPosition(showPosition);
@@ -216,6 +216,7 @@ function getLocation() {
 	}
 }
 
+//Shows current location
 function showPosition(position) {
 	console.log('Updated Position');
 
@@ -225,6 +226,7 @@ function showPosition(position) {
 	var relLat = bcitTop - position.coords.latitude;
 	var relLong = bcitLeft - position.coords.longitude * -1;
 
+	// Scales current location
 	var latPercent = 1.4 * (relLat / xWidth * 100 * -1);
 	var longPercent = relLat / yHeight * 100;
 
@@ -236,6 +238,7 @@ function showPosition(position) {
 	var pos = document.getElementById('locationDot');
 	pos.style.transform = 'translate(' + latPercent + 'vw, ' + longPercent + 'vh)';
 }
+
 firebase.auth().onAuthStateChanged(function() {
 	var user = firebase.auth().currentUser;
 	// When user logs in, writes user name and email in Firestore
