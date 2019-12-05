@@ -224,10 +224,10 @@ function showPosition(position) {
 		'Lat: ' + position.coords.latitude + '<br />Long: ' + position.coords.longitude;
 
 	var relLat = bcitTop - position.coords.latitude;
-	var relLong = bcitLeft - position.coords.longitude * -1;
+	var relLong = bcitRight - position.coords.longitude;
 
 	// Scales current location
-	var latPercent = 1.4 * (relLat / xWidth * 100 * -1);
+	var latPercent = 1.4 * (relLat / xWidth * 100);
 	var longPercent = relLat / yHeight * 100;
 
 	document.getElementById('bcitsize').innerHTML = 'BCIT width: ' + xWidth + '<br />BCIT height: ' + yHeight;
