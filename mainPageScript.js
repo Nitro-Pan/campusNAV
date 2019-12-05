@@ -1,5 +1,6 @@
 var userID;
 $(document).ready(function() {
+	// Starts with menu button shown
 	let menuIsDown = true;
 	// Command for menu button when it's clicked
 	$('#menuButton').click(function() {
@@ -23,10 +24,12 @@ $(document).ready(function() {
 	$('#buildingOutline').on('click', (e) => {
 		$('#locationInput').val("That doesn't do anything");
 	});
+
 	$('#clearHistory').click(() => {
 		db.collection('users').doc(userID).collection('history').doc('locations').delete();
 	});
 
+	// Command for when the logout button is clicked
 	$('#logout').click(function() {
 		firebase.auth().signOut().then(
 			function() {
@@ -38,13 +41,17 @@ $(document).ready(function() {
 		);
 	});
 
+	// Starts with debug information hidden
 	let debugIsShown = false;
+	// Command for debug button when it's clicked
 	$('#debugShow').click(function() {
 		if (debugIsShown) {
+			// Hides debug information
 			$('#debug').css({ display: 'none' });
 			$('#debugShow').text('Show Debug Info');
 			debugIsShown = false;
 		} else {
+			// Shows debug information
 			$('#debug').css({ display: 'block' });
 			$('#debugShow').text('Hide Debug Info');
 			debugIsShown = true;
@@ -52,11 +59,12 @@ $(document).ready(function() {
 	});
 
 	$('#locationInput').focus(function(e) {
-		//show the search button when the input field is focused
+		// Shows search button when input field is focused
 		$('#searchClick').css({ display: 'block' });
 		displayHistory();
 	});
 
+	// Search history
 	function displayHistory() {
 		$('#historyDrop').empty();
 		$('#historyDrop').css({ display: 'block' });
@@ -67,6 +75,7 @@ $(document).ready(function() {
 			}
 		});
 	}
+	// When building number in history is clicked, adds data to history
 	$('#historyDrop').on('click', (e) => {
 		console.log(e.target.innerText);
 		$('#locationInput').val(e.target.innerText);
@@ -74,22 +83,26 @@ $(document).ready(function() {
 	});
 
 	$('#locationInput').blur(async function(e) {
-		//hack so that the button gets pressed before it goes away
+		// Waits for button to be pressed before disappearing
 		await sleep(100);
 		$('#searchClick').css({ display: 'none' });
 		$('#historyDrop').css({ display: 'none' });
 	});
+
+	// When Enter key is pressed, adds data to history
 	$('#locationInput').keydown(function(e) {
 		let keycode = e.keyCode ? e.keyCode : e.which;
-		//if the enter key is pressed
 		if (keycode == 13) {
 			addHistoryData();
 		}
 	});
+
+	// When search button is clicked, adds data to history
 	$('#searchClick').click(function(e) {
 		addHistoryData();
 	});
 
+	// Adds search history to database
 	function addHistoryData() {
 		let input = $('#locationInput');
 		let snapData = [ 'emptyLocation' ];
@@ -100,27 +113,27 @@ $(document).ready(function() {
 			.doc('locations')
 			.get()
 			.then(function(snap) {
-				//see if the location attribute exists
+				// Checks if location attribute exists
 				try {
-					//if it does, no problem
+					// If it does, no error
 					snapData = snap.data()['location'];
 				} catch (e) {
-					//if it doesnt, the data will be correctly added in the next .then()
-					console.log("location doc doesn't exist, adding in later");
+					// If it doesn't, data will correctly be added in the next .then()
+					console.log("Location doc does not exist, add later");
 				}
 				//console.log(snapData);
 			})
 			.then(function() {
 				if (userID && input.val() != '') {
-					//if snapData has some new information in it
+					// If snapData has some new information in it
 					if (snapData[0] != 'emptyLocation') {
-						console.log('snapdata exists');
+						console.log('SnapData exists');
 						let addedValue = false;
-						//check to see if snapData already has this entry
+						// Checks to see if entry is already in snapData
 						for (let i in snapData) {
-							//if it does, remove it and re add it.
+							// If it is, remove and re-add entry
 							if (snapData[i] == input.val()) {
-								console.log('found value ' + i + ' already in the array');
+								console.log('Found value ' + i + ', already in the array');
 								snapData.splice(i, 1);
 								snapData.push(input.val());
 								addedValue = true;
@@ -129,14 +142,14 @@ $(document).ready(function() {
 						if (!addedValue) {
 							snapData.push(input.val());
 						}
-						//otherwise, clear snapdata and initialize it
+						// Otherwise, clear and initialize snapData
 					} else {
-						console.log("array doesn't exist, initializing");
+						console.log("Array does not exist, initializing");
 						snapData = [];
 						snapData.push(input.val());
 					}
-					console.log('array before setting is ' + snapData);
-					console.log('setting location');
+					console.log('Array before setting is ' + snapData);
+					console.log('Setting location');
 					db
 						.collection('users')
 						.doc(userID)
@@ -182,11 +195,11 @@ $(document).ready(function() {
 });
 
 var bcitLeft = -123.004512;
-// var bcitRight = -122.998273;
-var bcitRight = -122.99;
+var bcitRight = -122.998273;
+// var bcitRight = -122.99;
 var bcitTop = 49.254732;
-// var bcitBottom = 49.24295;
-var bcitBottom = 49.2432;
+var bcitBottom = 49.24295;
+// var bcitBottom = 49.2432;
 
 var xWidth = bcitLeft - bcitRight;
 var yHeight = bcitTop - bcitBottom;
