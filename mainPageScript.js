@@ -69,9 +69,9 @@ $(document).ready(function() {
 			if (maxValue > data.data().location.length) {
 				maxValue = data.data().location.length;
 			}
-			for (let i = 0; i < maxValue; i++) {
+			for (let i = maxValue - 1; i < -1; i--) {
 				let para = $('<p>' + data.data().location[i] + '</p>');
-				$('#historyDrop').prepend(para.clone());
+				$('#historyDrop').append(para.clone());
 			}
 		});
 	}
