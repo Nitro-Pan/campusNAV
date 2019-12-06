@@ -65,8 +65,8 @@ $(document).ready(function() {
 		$('#historyDrop').empty();
 		$('#historyDrop').css({ display: 'block' });
 		db.collection('users').doc(userID).collection('history').doc('locations').get().then(function(data) {
-			let maxValue = 10;
-			if (maxValue > data.data().location) {
+			let maxValue = 7;
+			if (maxValue > data.data().location.length) {
 				maxValue = data.data().location.length;
 			}
 			for (let i = 0; i < maxValue; i++) {
