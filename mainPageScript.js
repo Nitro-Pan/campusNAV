@@ -69,7 +69,7 @@ $(document).ready(function() {
 			if (maxValue > data.data().location.length) {
 				maxValue = data.data().location.length;
 			}
-			for (let i = maxValue - 1; i < -1; i--) {
+			for (let i = maxValue - 1; i > -1; i--) {
 				let para = $('<p>' + data.data().location[i] + '</p>');
 				$('#historyDrop').append(para.clone());
 			}
