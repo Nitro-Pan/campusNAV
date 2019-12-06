@@ -34,10 +34,15 @@
 <body>
 
   <div>
+    <!-- Logo image -->
     <img id='logo' src='logo2.png' />
+    <!-- Heading -->
     <h1 class='bigger'>CampusNAV</h1>
-    <h3>BCIT Burnaby campus navigation at your fingertips</h3>
+    <!-- App description -->
+    <h3>BCIT Burnaby Campus navigation at your fingertips</h3>
+    <!-- Login -->
     <div id="firebaseui-auth-container"></div>
+    <!-- Loading message -->
     <div id="loader">Loading...</div>
   </div>
 
@@ -77,7 +82,7 @@
           document.getElementById('loader').style.display = 'none';
         }
       },
-      // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+      // Uses popup for IDP Providers sign-in flow instead of the default, redirect.
       signInFlow: 'popup',
       signInSuccessUrl: 'main.html',
       signInOptions: [

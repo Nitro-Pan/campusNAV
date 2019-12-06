@@ -1,24 +1,26 @@
 var userID;
 $(document).ready(function() {
+	// Starts with menu button shown
 	let menuIsDown = true;
 	$('#menuButton').click(() => {
 		$('#menu').toggleClass('menuUp');
+		// Hides menu
 		$('#menu').toggleClass('menuDown');
 
 		if (menuIsDown) {
+			// Shows close icon when menu is shown
 			$('#menuButton img').attr('src', 'close_button.png');
 			menuIsDown = false;
 		} else {
+			// Shows menu icon when menu is hidden
 			$('#menuButton img').attr('src', 'menu_button.png');
 			menuIsDown = true;
 		}
 	});
 
+	// Command for when the searched building is clicked
 	$('#buildingOutline').on('click', (e) => {
 		$('#locationInput').val("That doesn't do anything");
-	});
-	$('#clearHistory').click(() => {
-		db.collection('users').doc(userID).collection('history').doc('locations').delete();
 	});
 
 	$('#logout').click(() => {
@@ -32,25 +34,29 @@ $(document).ready(function() {
 		);
 	});
 
+	// Starts with debug information hidden
 	let debugIsShown = false;
 	$('#debugShow').click(() => {
 		if (debugIsShown) {
+			// Hides debug information
 			$('#debug').css({ display: 'none' });
 			$('#debugShow').text('Show Debug Info');
 			debugIsShown = false;
 		} else {
+			// Shows debug information
 			$('#debug').css({ display: 'block' });
 			$('#debugShow').text('Hide Debug Info');
 			debugIsShown = true;
 		}
 	});
 
-	$('#locationInput').focus((e) => {
-		//show the search button when the input field is focused
+	$('#locationInput').focus(function(e) {
+		// Shows search button when input field is focused
 		$('#searchClick').css({ display: 'block' });
 		displayHistory();
 	});
 
+	// Search history
 	function displayHistory() {
 		$('#historyDrop').empty();
 		$('#historyDrop').css({ display: 'block' });
@@ -61,6 +67,7 @@ $(document).ready(function() {
 			}
 		});
 	}
+	// When building number in history is clicked, adds data to history
 	$('#historyDrop').on('click', (e) => {
 		console.log(e.target.innerText);
 		$('#locationInput').val(e.target.innerText);
@@ -68,22 +75,26 @@ $(document).ready(function() {
 	});
 
 	$('#locationInput').blur(async function(e) {
-		//hack so that the button gets pressed before it goes away
+		// Waits for button to be pressed before disappearing
 		await sleep(100);
 		$('#searchClick').css({ display: 'none' });
 		$('#historyDrop').css({ display: 'none' });
 	});
+
+	// When Enter key is pressed, adds data to history
 	$('#locationInput').keydown(function(e) {
 		let keycode = e.keyCode ? e.keyCode : e.which;
-		//if the enter key is pressed
 		if (keycode == 13) {
 			addHistoryData();
 		}
 	});
+
+	// When search button is clicked, adds data to history
 	$('#searchClick').click(function(e) {
 		addHistoryData();
 	});
 
+	// Adds search history to database
 	function addHistoryData() {
 		let input = $('#locationInput');
 		let snapData = [ 'emptyLocation' ];
@@ -93,28 +104,28 @@ $(document).ready(function() {
 			.collection('history')
 			.doc('locations')
 			.get()
-			.then(function(snap) {
-				//see if the location attribute exists
+			.then((snap) => {
+				// Checks if location attribute exists
 				try {
-					//if it does, no problem
+					// If it does, no error
 					snapData = snap.data()['location'];
 				} catch (e) {
-					//if it doesnt, the data will be correctly added in the next .then()
-					console.log("location doc doesn't exist, adding in later");
+					// If it doesn't, data will correctly be added in the next .then()
+					console.log('Location doc does not exist, add later');
 				}
 				//console.log(snapData);
 			})
-			.then(function() {
+			.then(() => {
 				if (userID && input.val() != '') {
-					//if snapData has some new information in it
+					// If snapData has some new information in it
 					if (snapData[0] != 'emptyLocation') {
-						console.log('snapdata exists');
+						console.log('SnapData exists');
 						let addedValue = false;
-						//check to see if snapData already has this entry
+						// Checks to see if entry is already in snapData
 						for (let i in snapData) {
-							//if it does, remove it and re add it.
+							// If it is, remove and re-add entry
 							if (snapData[i] == input.val()) {
-								console.log('found value ' + i + ' already in the array');
+								console.log('Found value ' + i + ', already in the array');
 								snapData.splice(i, 1);
 								snapData.push(input.val());
 								addedValue = true;
@@ -123,14 +134,14 @@ $(document).ready(function() {
 						if (!addedValue) {
 							snapData.push(input.val());
 						}
-						//otherwise, clear snapdata and initialize it
+						// Otherwise, clear and initialize snapData
 					} else {
-						console.log("array doesn't exist, initializing");
+						console.log('Array does not exist, initializing');
 						snapData = [];
 						snapData.push(input.val());
 					}
-					console.log('array before setting is ' + snapData);
-					console.log('setting location');
+					console.log('Array before setting is ' + snapData);
+					console.log('Setting location');
 					db
 						.collection('users')
 						.doc(userID)
@@ -146,9 +157,11 @@ $(document).ready(function() {
 				findBuilding();
 			});
 
+		// Retrieves location from database
 		function findBuilding() {
 			db.collection('location').get().then((data) => {
 				for (let i = 0; i < data.docs.length; i++) {
+					// Changes all lower case letters into upper case for search entry
 					if ($('#locationInput').val().toUpperCase() == data.docs[i].id) {
 						db.collection('location').doc(data.docs[i].id).get().then((doc) => {
 							let outlineRight = doc.data().right;
@@ -161,6 +174,7 @@ $(document).ready(function() {
 							let bottomEdge = (bcitTop - outlineBottom) / yHeight * 100 - topEdge;
 							console.log(leftEdge);
 							console.log(rightEdge);
+							//Building outline
 							$('#buildingOutline').css({
 								display: 'block',
 								width: rightEdge + 'vw',
@@ -189,6 +203,7 @@ function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+// Retrieves current location
 function getLocation() {
 	if (navigator.geolocation) {
 		navigator.geolocation.watchPosition(showPosition);
@@ -197,6 +212,7 @@ function getLocation() {
 	}
 }
 
+//Shows current location
 function showPosition(position) {
 	console.log('Updated Position');
 
@@ -204,7 +220,7 @@ function showPosition(position) {
 		'Lat: ' + position.coords.latitude + '<br />Long: ' + position.coords.longitude;
 
 	var relLat = bcitTop - position.coords.latitude;
-	var relLong = bcitLeft - position.coords.longitude * -1;
+	var relLong = bcitRight - position.coords.longitude;
 
 	var latPercent = 1.1 * (relLat / xWidth * 100 * -1);
 	var longPercent = relLat / yHeight * 100;
@@ -217,9 +233,10 @@ function showPosition(position) {
 	var pos = document.getElementById('locationDot');
 	pos.style.transform = 'translate(' + latPercent + 'vw, ' + longPercent + 'vh)';
 }
+
 firebase.auth().onAuthStateChanged(function() {
 	var user = firebase.auth().currentUser;
-	//when user logs in, writes user name and email in Firestore
+	// When user logs in, writes user name and email in Firestore
 	if (user) {
 		let userdb = db.collection('users');
 		userID = user.uid;
@@ -235,7 +252,6 @@ firebase.auth().onAuthStateChanged(function() {
 	} else {
 		console.log('No user logged in');
 	}
-	//reads user current location stored in Firestore
 });
-
+// Reads user current location stored in Firestore
 getLocation();
