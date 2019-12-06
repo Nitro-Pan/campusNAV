@@ -108,7 +108,7 @@ $(document).ready(function() {
 			.collection('history')
 			.doc('locations')
 			.get()
-			.then(function(snap) {
+			.then((snap) => {
 				// Checks if location attribute exists
 				try {
 					// If it does, no error
@@ -119,7 +119,7 @@ $(document).ready(function() {
 				}
 				//console.log(snapData);
 			})
-			.then(function() {
+			.then(() => {
 				if (userID && input.val() != '') {
 					// If snapData has some new information in it
 					if (snapData[0] != 'emptyLocation') {
