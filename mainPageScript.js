@@ -126,11 +126,7 @@ $(document).ready(function() {
 						console.log('SnapData exists');
 						let addedValue = false;
 						// Checks to see if entry is already in snapData
-						let maxValue = 10;
-						if (snapData.length < maxValue) {
-							maxValue = snapData.length;
-						}
-						for (let i = 0; i < maxValue; i++) {
+						for (let i in snapData) {
 							// If it is, remove and re-add entry
 							if (snapData[i] == input.val()) {
 								console.log('Found value ' + i + ', already in the array');
