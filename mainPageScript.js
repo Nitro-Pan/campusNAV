@@ -67,7 +67,7 @@ $(document).ready(function() {
 		db.collection('users').doc(userID).collection('history').doc('locations').get().then(function(data) {
 			for (let i of data.data().location) {
 				let para = $('<p>' + i + '</p>');
-				$('#historyDrop').append(para.clone());
+				$('#historyDrop').prepend(para.clone());
 			}
 		});
 	}
