@@ -1,7 +1,7 @@
 var userID;
 $(document).ready(function() {
 	let menuIsDown = true;
-	$('#menuButton').click(function() {
+	$('#menuButton').click(() => {
 		$('#menu').toggleClass('menuUp');
 		$('#menu').toggleClass('menuDown');
 
@@ -21,19 +21,19 @@ $(document).ready(function() {
 		db.collection('users').doc(userID).collection('history').doc('locations').delete();
 	});
 
-	$('#logout').click(function() {
+	$('#logout').click(() => {
 		firebase.auth().signOut().then(
-			function() {
+			() => {
 				window.location = 'index.html';
 			},
-			function(e) {
+			(e) => {
 				console.log("You can't sign out.");
 			}
 		);
 	});
 
 	let debugIsShown = false;
-	$('#debugShow').click(function() {
+	$('#debugShow').click(() => {
 		if (debugIsShown) {
 			$('#debug').css({ display: 'none' });
 			$('#debugShow').text('Show Debug Info');
@@ -45,7 +45,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#locationInput').focus(function(e) {
+	$('#locationInput').focus((e) => {
 		//show the search button when the input field is focused
 		$('#searchClick').css({ display: 'block' });
 		displayHistory();
@@ -206,7 +206,7 @@ function showPosition(position) {
 	var relLat = bcitTop - position.coords.latitude;
 	var relLong = bcitLeft - position.coords.longitude * -1;
 
-	var latPercent = 1.4 * (relLat / xWidth * 100 * -1);
+	var latPercent = 1.1 * (relLat / xWidth * 100 * -1);
 	var longPercent = relLat / yHeight * 100;
 
 	document.getElementById('bcitsize').innerHTML = 'BCIT width: ' + xWidth + '<br />BCIT height: ' + yHeight;
