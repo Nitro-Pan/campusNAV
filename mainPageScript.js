@@ -65,8 +65,12 @@ $(document).ready(function() {
 		$('#historyDrop').empty();
 		$('#historyDrop').css({ display: 'block' });
 		db.collection('users').doc(userID).collection('history').doc('locations').get().then(function(data) {
-			for (let i of data.data().location) {
-				let para = $('<p>' + i + '</p>');
+			let maxValue = 10;
+			if (maxValue > data.data().location) {
+				maxValue = data.data().location.length;
+			}
+			for (let i = 0; i < maxValue; i++) {
+				let para = $('<p>' + data.data().location[i] + '</p>');
 				$('#historyDrop').prepend(para.clone());
 			}
 		});
